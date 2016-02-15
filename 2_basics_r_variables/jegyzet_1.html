@@ -117,7 +117,7 @@ ages</code></pre>
 <p>A <code>median</code> függvénnyel egy vagy több vektor értékeinek mediánját kaphatjuk.</p>
 <pre class="r"><code>median(ages)</code></pre>
 <pre><code>## [1] 21</code></pre>
-<p>Minden függvényről kaphatunk leírást, és magyarázatot, ha a neve elé <code>?</code>-t írunk, majd entert ütünk. Itt a “Description” résznél a függvény általános leírását kapjuk, utána a lehetséges argumentumokat. A függvények leírásának pontosabb értelmezéséről a függvényekről szóló órán less szó.</p>
+<p>Minden függvényről kaphatunk leírást, és magyarázatot, ha a neve elé <code>?</code>-t írunk, majd entert ütünk. Itt a “Description” résznél a függvény általános leírását kapjuk, utána a lehetséges argumentumokat. A függvények leírásának pontosabb értelmezéséről a függvényekről szóló órán lesz szó.</p>
 <pre class="r"><code>?mean</code></pre>
 <p>A vektorok adott sorszámú elemét <code>[index]</code>-ként tudjuk elérni</p>
 <pre class="r"><code>ages[1]</code></pre>
@@ -234,7 +234,7 @@ m1</code></pre>
 <p>Minden szám idézőjelbe kerül, vagyis innentől ők is karakter típusúak. Találkozhatunk ezzel a hibával, ha magyar excelbe 12.1 jellegű számot írunk, vagy fordítva, angol excelbe 12,1-et (angolszászok, meg a hülye tizedespontjuk). Ránézve mi tudjuk, hogy a 12.1 egy szám csak nem úgy írva mint ahogy megszoktuk, a gép azonban nem, és szövegként értelmezi. Ugyanez történik R-ben is, csak itt több féle típusunk van.</p>
 <p>A típuskonverzió a következő sorrendben történik.</p>
 <p>logical &lt; integer &lt; double &lt; complex &lt; character</p>
-<p>Vagyis logikai + integer típusból integer lesz, integer + double-ből double, ahogy logikai + doubleből, és logaikai + integer + double-ből is logikai, és így tovább. A különböző típusú változók összefűzését, és különböző típusú változókkal történő matematikai műveletek kezdők számár jó gyakorlás lehetnek!</p>
+<p>Vagyis logikai + integer típusból integer lesz, integer + double-ből double, ahogy logikai + doubleből, és logaikai + integer + double-ből is double, és így tovább. A különböző típusú változók összefűzését, és különböző típusú változókkal történő matematikai műveletek kezdők számár jó gyakorlás lehetnek!</p>
 <p>Kezdésképpen: matematikai műveletet csak skalár változókkal tudunk végezni!^1 Ha karakterhez akarunk egyet adni hibát kapunk.</p>
 <pre class="r"><code># m1 + 1
 # Error in matrix1 + 1 : non-numeric argument to binary operator</code></pre>

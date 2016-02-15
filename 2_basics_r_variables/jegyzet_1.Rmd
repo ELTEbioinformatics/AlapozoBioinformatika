@@ -2,7 +2,7 @@
 title: "Informatikai alapok, R változók"
 author: "Tamas Kadlecsik"
 date: "February 14, 2016"
-output: pdf_document
+output: html_document
 ---
 
 # Jelmagyarázat
@@ -80,7 +80,7 @@ A `median` függvénnyel egy vagy több vektor értékeinek mediánját kaphatju
 median(ages)
 ```
 
-Minden függvényről kaphatunk leírást, és magyarázatot, ha a neve elé `?`-t írunk, majd entert ütünk. Itt a “Description” résznél a függvény általános leírását kapjuk, utána a lehetséges argumentumokat. A függvények leírásának pontosabb értelmezéséről a függvényekről szóló órán less szó.
+Minden függvényről kaphatunk leírást, és magyarázatot, ha a neve elé `?`-t írunk, majd entert ütünk. Itt a “Description” résznél a függvény általános leírását kapjuk, utána a lehetséges argumentumokat. A függvények leírásának pontosabb értelmezéséről a függvényekről szóló órán lesz szó.
 
 ```{r}
 ?mean
@@ -216,7 +216,7 @@ A típuskonverzió a következő sorrendben történik.
 
 logical < integer < double < complex < character
 
-Vagyis logikai + integer típusból integer lesz, integer + double-ből double, ahogy logikai + doubleből, és logaikai + integer + double-ből is logikai, és így tovább. A különböző típusú változók összefűzését, és különböző típusú változókkal történő matematikai műveletek kezdők számár jó gyakorlás lehetnek!
+Vagyis logikai + integer típusból integer lesz, integer + double-ből double, ahogy logikai + doubleből, és logaikai + integer + double-ből is double, és így tovább. A különböző típusú változók összefűzését, és különböző típusú változókkal történő matematikai műveletek kezdők számár jó gyakorlás lehetnek!
 
 Kezdésképpen: matematikai műveletet csak skalár változókkal tudunk végezni!^1 Ha karakterhez akarunk egyet adni hibát kapunk.
 
