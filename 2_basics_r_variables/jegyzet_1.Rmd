@@ -2,7 +2,7 @@
 title: "Informatikai alapok, R változók"
 author: "Tamas Kadlecsik"
 date: "February 14, 2016"
-output: html_document
+output: pdf_document
 ---
 
 # Jelmagyarázat
