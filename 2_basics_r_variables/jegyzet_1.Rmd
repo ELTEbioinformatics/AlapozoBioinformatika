@@ -363,7 +363,7 @@ A `q()` függvénnyel kiléphetünk az R konzolból. Y-mentsük a képet, N-ne, 
 |függvény |function|
 |függvényhívás|function call|
 |függvényhívó operátor|function call operator|
-|argumentumok|argument|
+|argumentum|argument|
 |index		|	index|
 |indexek  |	indices (ritkán indexes, google megérti azt is) |
 |típus		|type|
