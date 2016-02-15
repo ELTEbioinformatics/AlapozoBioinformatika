@@ -2,7 +2,7 @@
 title: "Informatikai alapok, R változók"
 author: "Tamas Kadlecsik"
 date: "February 14, 2016"
-output: pdf_document
+output: html_document
 ---
 
 # Jelmagyarázat
@@ -370,7 +370,7 @@ A `q()` függvénnyel kiléphetünk az R konzolból. Y-mentsük a képet, N-ne, 
 |atomi		|atomic|
 |primitív |primitive|
 |összetett|composite|
-|fölül ír |override|
+|fölülír |override|
 |mátrix   |matrix|
 |mátrixok |matrices (ritkán matrixes, google megérti azt is)|
 |implicit típuskonverzió|implicit type conversion|
