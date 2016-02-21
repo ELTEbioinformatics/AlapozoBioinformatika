@@ -2,7 +2,7 @@
 title: "Házi feladat 1"
 author: "Tamas Kadlecsik"
 date: "February 21, 2016"
-output: pdf_document
+output: html_document
 ---
 
 Kínaiak sokkal több pénzből, sokkal nagyobb volumenben elkezdték lenyúlni a mi kutatásunkat. Nem baj, szerencsére a szomszéd koli szobában Józsi hackerkedik. Google translate-tel nagyjából sikerült kihámoznunk mi van a táblázatokban.
@@ -11,9 +11,11 @@ Nézzük meg mire jutottak eddig, nyissuk meg excellel!
 
 Az egyes oszlopok: 
 
-|Specimen Id|expression|died|treatment|diet|weight|
-|-----------|----------|----|---------|----|------|
-|Az állat azonosítója a kísérletben|A kísérlet hányadik napján született|A kísérlet hányadik napján halt meg|Kezelt-e, vagy kontroll|Turbósított diétán volt-e, vagy simán|Mekkora volt a tömege grammban, amikor meghalt|
++---------------------+--------------------+--------------------+--------------+-------------------------+-------------------------+
+| Specimen Id         | expression         | died               | treatment    | diet                    | weight                  |
++=====================+====================+====================+==============+=========================+=========================+
+| Az állat azonosítója| A kísérlet hányadik| A kísérlet hányadik| Kezelt-e,    | Turbósított diétán volt-| Mekkora volt a tömege   |
+| a kísérletben       | napján született   | napján halt meg    | vagy kontroll| e, vagy simán           | grammban, amikor meghalt|
 
 Még ki se számolták az egerek élethosszát. 
 
