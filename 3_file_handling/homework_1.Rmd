@@ -1,0 +1,47 @@
+---
+title: "Házi feladat 1"
+author: "Tamas Kadlecsik"
+date: "February 21, 2016"
+output: pdf_document
+---
+
+Kínaiak sokkal több pénzből, sokkal nagyobb volumenben elkezdték lenyúlni a mi kutatásunkat. Nem baj, szerencsére a szomszéd koli szobában Józsi hackerkedik. Google translate-tel nagyjából sikerült kihámoznunk mi van a táblázatokban.
+
+Nézzük meg mire jutottak eddig, nyissuk meg excellel!
+
+Az egyes oszlopok: 
+
+|Specimen Id|expression|died|treatment|diet|weight|
+|-----------|----------|----|---------|----|------|
+|Az állat azonosítója a kísérletben|A kísérlet hányadik napján született|A kísérlet hányadik napján halt meg|Kezelt-e, vagy kontroll|Turbósított diétán volt-e, vagy simán|Mekkora volt a tömege grammban, amikor meghalt|
+
+Még ki se számolták az egerek élethosszát. 
+
+Olvassuk be az experiment.csv-t (vesszővel tagolt értékek). Számoljuk ki az egerek élethosszát, majd csatoljuk a táblázathoz „lifespan” néven. Írjuk ki az új táblázatot fájlba. Ezek után átlagoljuk ki egy listába az egerek súlyát és élethosszát, majd írjuk ki ezt is egy fájlba. 
+
+Nézzük meg továbbá, hogy mit tudunk meg a táblázatunkról, ha beadjuk a str(), és summary() függvényeknek. Értelmezzük a kapott eredményt, és írjuk ki őket egy-egy fájlba!
+
+Elküldendő: Az összefűzött táblázat .csv-ként, az átlagolt lista .csv-ként,  a str() és a summary() függvények eredményeit .csv-ként, és az ezekhez fűzött magyarázatot .txt-ként, plusz magát a kódot .R-ként a tamas.kadlecsik@gmail.com címre.
+
+A házi feladat megoldása közben az eddigi két óra anyagát, és Google-t használni érdemes! 
+
+Extra feladat: 
+
+**DISCLAIMER!** _Az extra felad megoldásához szükséges információ órán nem hangzott el! Google pedig a barátunk… Akinek ez nem megy, ne keseredjen el, később megnézzük hogyan kell._
+
+Külön átlagoljuk ki azon állatok súlyát és élethosszát, amelyek a kezelt, illetve azokét, amelyek a kezeletlen diétát kapták külön-külön!
+
+Extra feladat2:
+
+**DISCLAIMER!!!** _Ez ráépül az előző feladatra. Ha esetleg valaki nagyon unatkozik, és az előző feladat után még van kedve folytatni annak itt a lehetőség._
+
+Átlagoljuk ki azon állatok élethosszát és súlyát amelyek
+
+|treatmen|diet|
+|--------|----|
+|control|control|
+|treated|control|
+|control|treated|
+|treated|treated|
+
+csoportokban voltak!
