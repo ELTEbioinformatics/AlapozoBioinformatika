@@ -2,7 +2,7 @@
 title: "File handling"
 author: "Tamas Kadlecsik"
 date: "February 21, 2016"
-output: html_document
+output: pdf_document
 ---
 # read.table(path/to/file, sep="", header=F, quote = "\"'", comment.char="#")
 ## `path/to/file` -- Elérési utak
