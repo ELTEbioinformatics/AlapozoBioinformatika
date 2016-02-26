@@ -75,14 +75,14 @@ img {
 <p>Amikor tésztát gyúrunk, szükségünk van tojásra, lisztre, vízre. Azonban mielőtt összekevernénk a szükséges mennyiséget, leellenőrizzük, hogy a tojásaink nem zápultak-e meg, illetve, hogy nem zsizsikes-e a lisztünk.</p>
 <p>Ezek után addig gyúrjuk, amíg megfelelő állagú tésztát nem kapunk. Ha esetleg túl híg, újabb adag lisztet adunk hozzá, ha túl sűrű, kicsit felvizezzük.</p>
 <p>Ezt egy gépnek a következő R pszeudokóddal tudnánk elmagyarázni:</p>
-<pre><code>flour &lt;- read.table(&quot;a bag a flour&quot;)
+<pre class="r"><code>flour &lt;- read.table(&quot;a bag a flour&quot;)
 water &lt;- read.table(&quot;0.5 l of water&quot;)
 eggs &lt;- read.table(&quot;2 eggs&quot;)
 if(&quot;maggots&quot; %in% flour) flour &lt;- read.table(&quot;new bag of flour&quot;)
 if(is.spolied(eggs)) eggs &lt;- read.table(&quot;2 other eggs&quot;)</code></pre>
 <p>Ezzel elő is készültünk a főzéshez. Persze a kód nem teljes, hiszen ezt addig kéne ismételgetnünk, amíg nem találunk használható tojásokat ÉS használható lisztet.</p>
 <p>Ezek után addig kell gyúrnunk, amíg megfelelő állagú nem lesz:</p>
-<pre><code>ready &lt;- F
+<pre class="r"><code>ready &lt;- F
 while(!ready){
     dough &lt;- knead(flour, water, eggs)
     if (dough[&quot;consistency&quot;] -- &quot;ready&quot;) ready &lt;- T
@@ -96,7 +96,7 @@ write.table(dough, &quot;dough.csv&quot;)</code></pre>
 <div id="logikai-operatorok" class="section level2">
 <h2>Logikai operátorok</h2>
 <p>Kódunk legelején a már ismert módon beolvastuk a nyers adatot, vagyis a tésztánk alapanyagait.</p>
-<pre><code>flour &lt;- read.table(&quot;a bag a flour&quot;)
+<pre class="r"><code>flour &lt;- read.table(&quot;a bag a flour&quot;)
 water &lt;- read.table(&quot;0.5 l of water&quot;)
 eggs &lt;- read.table(&quot;2 eggs&quot;)
 if(&quot;maggots&quot; %in% flour) flour &lt;- read.table(&quot;new bag of flour&quot;)
@@ -168,9 +168,450 @@ if(is.spolied(eggs)) eggs &lt;- read.table(&quot;2 other eggs&quot;)</code></pre
 <td align="left">T</td>
 <td align="center">T</td>
 </tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">F</td>
+<td align="center">F</td>
+</tr>
+<tr class="odd">
+<td align="left">F</td>
+<td align="left">T</td>
+<td align="center">F</td>
+</tr>
+<tr class="even">
+<td align="left">F</td>
+<td align="left">F</td>
+<td align="center">F</td>
+</tr>
 </tbody>
 </table>
+<p><strong>OR</strong>:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">A</th>
+<th align="left">B</th>
+<th align="center">A | B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">T</td>
+<td align="center">T</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">F</td>
+<td align="center">T</td>
+</tr>
+<tr class="odd">
+<td align="left">F</td>
+<td align="left">T</td>
+<td align="center">T</td>
+</tr>
+<tr class="even">
+<td align="left">F</td>
+<td align="left">F</td>
+<td align="center">F</td>
+</tr>
+</tbody>
+</table>
+<p><strong>NOT</strong>:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">A</th>
+<th align="center">!A</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">F</td>
+<td align="center">T</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="center">F</td>
+</tr>
+</tbody>
+</table>
+<p>Magyarázatra szorul még a vektoriális, és logikai operátor. A vektoriális operátorok két egyenlő hosszúságú logikai vektoron végeznek ELEMENKÉNT logikai műveletet.</p>
+<pre class="r"><code>l1 &lt;- c(TRUE,TRUE,FALSE,TRUE,FALSE)
+l2 &lt;- c(FALSE,TRUE,FALSE,TRUE,TRUE)
+l1 &amp; l2</code></pre>
+<pre><code>## [1] FALSE  TRUE FALSE  TRUE FALSE</code></pre>
+<pre class="r"><code>l1 | l2</code></pre>
+<pre><code>## [1]  TRUE  TRUE FALSE  TRUE  TRUE</code></pre>
+<p>Ezzel szemben a logikai operátor minden esetben biztosítja, hogy csakis egy logikai eredménye legyen a vizsgálatnak. Esetünkben a két vektornak csupán az első elemeit fogja összehasonlítani.</p>
+<pre class="r"><code>l1 &amp;&amp; l2</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>l1 || l2</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>A tagadás (<strong>NOT</strong>) operátor logikai vektorokon van értelmezve. Mivel ha csupán egyetlen értéket rendelünk egy változóhoz akkor is vektort kapunk, csupán egyeleműt, így nincs értelme külön vektoriális és logikai tagadásról beszélni. A kettő egy és ugyanaz.</p>
+<pre class="r"><code>!l1</code></pre>
+<pre><code>## [1] FALSE FALSE  TRUE FALSE  TRUE</code></pre>
+<pre class="r"><code>l1 &lt;- TRUE
+!l1</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<p>Noha az esetek döntő többségében if kitételen belül is működnek a vektoriális operátorok, ezek használata azonban nem szerencsés, így ha lehet, szokjunk rá, hogy megfelelő helyen a megfelelő operátort használjuk!</p>
+<p>A matematikai relációjelekkel a szokásos módon tudjuk megvizsgálni két változó, vagy egy változó és egy konstans viszonyát.</p>
+<pre class="r"><code>x &lt;- 4
+x &gt; 3</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>x &lt; 3</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>x &lt;= 3</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>x &gt;= 4</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>x == 4</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>x != 4</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>x == 15</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>x != 15</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>A tartalmazás operátorral egyszerűen megvizsgálhatjuk, hogy valamely vektor, mátrix, vagy bármely összetett típusú objektum tartalmazza-e a keresett elemet vagy elemeket.</p>
+<pre class="r"><code>'apple' %in% c('apple', 'banana')</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>10 %in% c(1,5,25)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>c(1,5) %in% c(1,5,25)</code></pre>
+<pre><code>## [1] TRUE TRUE</code></pre>
+<pre class="r"><code>c(1,2) %in% c(1,5,25)</code></pre>
+<pre><code>## [1]  TRUE FALSE</code></pre>
+<p>Figyeljünk, hogy az <code>%in%</code> operátort közvetlenül tagadni nem tudjuk! Azonban a matematikai logika (a.k.a. Boole algebra) szabályai itt is alkalmazhatóak, a műveleti sorrend, és a zárójelek használata megegyezik a gimnáziumban tanulttal. Amennyiben már nincs meg a gimis matekkönyvünk, úgy a wikipédia Boole algebrára vonatkozó szócikke segíthet eligazodni. Az <code>%in%</code> operátor eredményének tagadásának egyik módja a következő:</p>
+<pre class="r"><code>!(10 %in% c(1,5,25))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
 </div>
+<div id="logikai-fuggvenyek" class="section level2">
+<h2>Logikai függvények</h2>
+<pre class="r"><code>if(is.spolied(eggs)) eggs &lt;- read.table(&quot;2 other eggs&quot;)</code></pre>
+<p>Fenti sorunk, mellyel megvizsgáltuk, hogy a tojásaink romlottak-e, egy logikai függvény. Vagyis egy olyan függvény, melynek visszatérési értéke egy logikai érték. Igen sok ilyen van, a konkrét típus vizsgálatok mindegyikére találunk függvényt:</p>
+<pre class="r"><code>is.vector()
+is.numeric()
+is.integer()
+is.logical()
+is.complex()
+is.data.frame()
+is.list()</code></pre>
+<p>A két legfontosabb azonban az:</p>
+<pre class="r"><code>is.null()
+is.na()</code></pre>
+<p>A null egy külön típus. Jelentése: semmi. Ahogy a matematikában a 0 a semmi SZÁMSZERŰ reprezentációja, úgy a <code>NULL</code> az informatikában a semmi informatikai reprezentációja. Esetünkben a 0 nem semmi, hiszen hordoz információt. A <code>NULL</code> azt jelképezi, hogy valamiről nem áll rendelkezésre információ. Amolyan üres memóriaterület. Ha egy változónak nincs értéke, akkor a típusa NULL.</p>
+<p>Ezzel szemben az <code>NA</code> (Not Available) a “nincs adat” reprezentációja. Ez a statisztikai semmi. Ha nincs mért adatunk, statisztikailag nincs semmink, azonban fontos ezen adatok nyomon követése is. Az, hogy nem mértünk semmit (mert tök részegek voltunk, és nem bírtuk megfogni még a pipettát sem), nem egyenlő azzal, hogy 0 értéket mértünk (mert kimutatási határ alatt volt a mérendőnk). Információ értéke azonban ennek is van!</p>
+<p>Az <code>NA</code> nem összekeverendő a <code>NaN értékkel</code>, ami a “Not a Number” kifejezés rövidítése. Bővebb információért konzol: <code>?NaN</code>.</p>
+</div>
+<div id="logikai-indexeles" class="section level2">
+<h2>Logikai indexelés</h2>
+<p>Adott data.frame celláit a következő módon tudjuk elérni: <code>data.frame[sor, oszlop]</code> Például a házi feladat sorai, és oszlopai:</p>
+<pre class="r"><code>experiment[2,]</code></pre>
+<p>visszaadja az experiment második sorát</p>
+<pre class="r"><code>experiment[,3]</code></pre>
+<p>visszaadja az experiment második sorát</p>
+<pre class="r"><code>experiment$died</code></pre>
+<p>és</p>
+<pre class="r"><code>experiment[&quot;died&quot;]</code></pre>
+<p>hívások.</p>
+<p>Amennyiben adott sorokat szeretnénk vektorokat is megadhatunk indexként. Emlékeztetőül, a vektorok létrehozására:</p>
+<pre class="r"><code>1:5 == c(1,2,3,4,5)</code></pre>
+<p>Vagyis, ha az első 5 sort szeretnénk:</p>
+<pre class="r"><code>experiment[1:5,]</code></pre>
+<p>első 3 oszlop:</p>
+<pre class="r"><code>experiment[,1:5]</code></pre>
+<p>első 5 oszlop, első 5 sora</p>
+<pre class="r"><code>experiment[1:5,1:5]</code></pre>
+<p>de ha csak az 1., 3., és 5. sorok kellenek:</p>
+<pre class="r"><code>experiment[c(1,3,5),1:5]</code></pre>
+<p>és csak az első és 5. oszlop:</p>
+<pre class="r"><code>experiment[c(1,3,5),c(1,5)]</code></pre>
+<p>Miért beszélünk erről a logikai operátoroknál?</p>
+<p>Nézzük meg mi történik, ha</p>
+<pre class="r"><code>experiment[,c(F,T)]</code></pre>
+<p>Vagyis kiegészítette a mintázatot 5-ig, tehát ez a hívás megegyezik a következővel:</p>
+<pre class="r"><code>experiment[,c(F,T,F,T,F)]</code></pre>
+<p>Tehát</p>
+<pre class="r"><code>experiment[T,T,F]</code></pre>
+<p>Ugyanaz, mint:</p>
+<pre class="r"><code>experiment[T,T,F,T,T]</code></pre>
+<p>Az utolsó F már nem fér ki, mivel csak 5 oszlopunk van. Ugyanez sorokkal is működik:</p>
+<pre class="r"><code>experiment[c(F,T), c(F,T)]</code></pre>
+<p>Megkaptuk az experiment minden második sorát, és oszlopát.</p>
+<p>Most nézzük meg mi történik, ha a data.frame-et logikai vizsgálatnak vetjük alá:</p>
+<pre class="r"><code>experiment$treatment == &quot;control&quot;</code></pre>
+<p>Kapunk egy vektort amely megadja, hogy az adott sorban a logikai vizsgálat eredménye TRUE, vagy FALSE. Ezt felhasználva tudunk szűrni a a táblázatunk sorai között:</p>
+<pre class="r"><code>filter.vector &lt;- experiment$treatment == &quot;control&quot;
+experiment[filter.vector,]</code></pre>
+<p>Ezt egybeírva:</p>
+<pre class="r"><code>experiment[experiment$treatment == &quot;control&quot;,]</code></pre>
+<p>Természetesen több oszlopot is vizsgálhatunk egyszerre:</p>
+<pre class="r"><code>filter.vector &lt;- experiment$treatment == &quot;control&quot; &amp; experiment$diet == &quot;control&quot;
+experiment[filter.vector,]
+experiment[experiment$treatment == &quot;control&quot; &amp; experiment$diet == &quot;control&quot;,]</code></pre>
+</div>
+<div id="vezerlesi-utasitasok" class="section level2">
+<h2>Vezérlési utasítások</h2>
+<p>Amennyiben egy adott kód lefutására csak bizonyos feltételek teljesülése esetén szükséges, akkor logikai vezérlési utasítást, más néven <strong>if kikötést</strong> alkalmazunk.</p>
+<pre class="r"><code>if(&quot;maggots&quot; %in% flour) flour &lt;- read.table(&quot;new bag of flour&quot;)
+if(is.spolied(eggs)) eggs &lt;- read.table(&quot;2 other eggs&quot;)</code></pre>
+<p>A fenti esetben CSAK ÉS KIZÁRÓLAG akkor dobjuk ki a tojást, vagy a lisztet, ha az zsizsikes, vagy záp.</p>
+<p>Általános esetben:</p>
+<pre class="r"><code>if (logikai kifejezés) feltételesen futtatandó kód sor</code></pre>
+<p>Több sornyi kódot is futtathatunk, amennyiben azt kód blokkban helyezzük el.</p>
+<pre class="r"><code>if (logikai kifejezés){
+  1. feltételesen futtatandó kód sor
+  2. feltételesen futtatandó kód sor
+  3. feltételesen futtatandó kód sor
+  4. feltételesen futtatandó kód sor
+}</code></pre>
+<p>Ez esetben, ha a logikai kifejezés igaz, vagyis a feltételünk teljesül, a kód blokk mind a 4 sora lefut, ha nem, akkor egyik sem, és közvetlenül a blokk után jövő utasítás hajtódik végre. A dagasztós példánál maradva: ha sem nem zápok a tojások, sem nem zsizsikes a liszt, akkor rögtön elkezdjük gyúrni a tésztát.</p>
+<pre class="r"><code>x &lt;- 4
+if (x&gt;3) print(&quot;x is greater than 3&quot;)</code></pre>
+<pre><code>## [1] &quot;x is greater than 3&quot;</code></pre>
+<pre class="r"><code>if (x&lt;3) print(&quot;x is less than 3&quot;)
+if (x==4) print(&quot;x equals 4&quot;)</code></pre>
+<pre><code>## [1] &quot;x equals 4&quot;</code></pre>
+<p>Gyakran megesik, hogy ha a vizsgálat negatív eredménnyel zárul, akkor nem elegendő, ha nem fut le a kikötés után a kód, hanem ez esetben mást szeretnénk futtatni.</p>
+<p>Példának okáért írjunk egy olyan kódot, ami beolvas egy fájlt, majd annak egy oszlopából szétválogatja a kettővel osztható, és a kettővel nem osztható számokat. A teljes példát csak a ciklusok bemutatása után tudjuk megoldani, de az alapokat már most lefektetjük.</p>
+<p>Ehhez első sorban a modulo (%%) aritmetikai operátorra lesz szükségünk.</p>
+<p>A modulo operátor a bal oldalát a jobb oldalával, majd megadja az osztás maradékát.</p>
+<p>például:</p>
+<pre class="r"><code>4 %% 3</code></pre>
+<pre><code>## [1] 1</code></pre>
+<p>Kifejtve: 4 / 3 = 1, marad az 1</p>
+<pre class="r"><code>4 %% 2</code></pre>
+<pre><code>## [1] 0</code></pre>
+<p>4 / 2 = 2, marad a 0</p>
+<p>Vagyis, ha azt szeretnénk, hogy egy kód csak akkor fusson le, ha a vizsgált szám kettővel osztható:</p>
+<pre class="r"><code>x &lt;- 4
+if (x%%2==0) print(&quot;x is divisible by 2&quot;) else print(&quot;it's an odd number&quot;)</code></pre>
+<pre><code>## [1] &quot;x is divisible by 2&quot;</code></pre>
+<pre class="r"><code>x &lt;- 15
+if (x%%2==0) print(&quot;x is divisible by 2&quot;) else print(&quot;it's an odd number&quot;)</code></pre>
+<pre><code>## [1] &quot;it's an odd number&quot;</code></pre>
+<p>Bekerült az “else” a képbe. Ha a kitétel igaz, csak a <code>print(&quot;x is divisible by 2&quot;)</code> ha a kitétel hamis, rögtön az <code>else</code> utáni részre ugrik és csak a <code>print(&quot;it's an odd number&quot;)</code> fut le.</p>
+<p>Megesik, hogy ez nekünk nem elég. Több felé kell szortíroznunk az információt:</p>
+<pre class="r"><code>if (x%%2==0) print (&quot;x is divisible by 2&quot;) else if (x%%3==0) 
+  print(&quot;x is divisible by 3&quot;) else if(x%%5==0) 
+    print(&quot;x is divisible by 5&quot;) else print(&quot;where did this come from&quot;)</code></pre>
+<pre><code>## [1] &quot;x is divisible by 3&quot;</code></pre>
+<p>Kód blokkot használva kicsit átláthatóbbá tehetjük a dolgot:</p>
+<pre class="r"><code>if (x%%2==0) {
+  print (&quot;x is divisible by 2&quot;)
+} else if (x%%3==0) {
+  print(&quot;x is divisible by 3&quot;)
+} else if(x%%5==0) {
+    print(&quot;x is divisible by 5&quot;)
+} else {
+    print(&quot;where did this come from?&quot;)
+}</code></pre>
+<pre><code>## [1] &quot;x is divisible by 3&quot;</code></pre>
+<pre class="r"><code>print(&quot;so we shall go on&quot;)</code></pre>
+<pre><code>## [1] &quot;so we shall go on&quot;</code></pre>
+<p>Vagyis, ha x osztható kettővel lefut az első print, majd a kikötések utáni sor fut le, vagyis az eredmény:</p>
+<pre class="r"><code>&quot;x is divisible by 2&quot;
+&quot;so we shall go on&quot;</code></pre>
+<p>Ha x == 15</p>
+<pre class="r"><code>&quot;x is divisible by 5&quot;
+&quot;so we shall go on&quot;</code></pre>
+<p>Ezt egyébként if – else blokknak hívják.</p>
+<p>Figyeljük meg, hogy az if – else blokk futtatása azonnal megáll, amint valamelyik feltétel if, vagy else if feltétel teljesül, rögtön a blokk utáni első sorra ugrik a végrehatjás.</p>
+<p>Mint már említettük ezek azok a nyelvi konstrukciók, melyek lehetővé teszik az ismétlődő munkavégzést. Iparban a tartályok és forgó berendezések teszik ezt lehetővé. Főzés esetén pedig a tál és a fakanál, vagy épp a kezünk.</p>
+<p>Újra, és újra elvégezzük ugyanazt a műveletet, amíg célhoz nem érünk.</p>
+<p>Próbáljuk megírni a kedvenc sum függvényünket függvényhívás nélkül!</p>
+<pre class="r"><code>x &lt;- c(5,10,15,20,25)
+sum &lt;- 0
+for (value in x){
+    sum &lt;- sum + value
+}</code></pre>
+<p>Lefuttatva az Rstudio jobb fölső moduljában, a változók között láthatjuk, hogy a sum 75-tel lett egyenlő. Megoldásunk eredményét egy szokásos sum(x) hívással ellenőrízhetjük.</p>
+<p>Vagyis a value változó minden iterációkor közvetlenül felveszi x soron következő értéket:</p>
+<ol style="list-style-type: decimal">
+<li>iteráció <code>value = x[1] = 5</code></li>
+</ol>
+<pre class="r"><code>sum &lt;- sum + value
+sum &lt;- 0 + 5</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>iteráció: <code>value = x[2] = 10</code></li>
+</ol>
+<pre class="r"><code>sum &lt;- sum + 10
+sum &lt;- 5 + 10</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>iteráció: <code>value = x[3] = 15</code></li>
+</ol>
+<pre class="r"><code>sum &lt;- sum + 15     
+sum &lt;- 15 + 15</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>iteráció: <code>value = x[4] = 20</code></li>
+</ol>
+<pre class="r"><code>sum &lt;- sum + 20 
+sum &lt;- 30 + 20</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>iteráció: <code>value = x[5] = 25</code></li>
+</ol>
+<pre class="r"><code>sum &lt;- sum + 25</code></pre>
+<p><em>Figyeljük meg, hogy nem</em> <code>i</code><em>-nek hívjuk a változót, hanem value-nak. Hasznos, ha olyan nevet adunk a változóinknak, ami alapján egyből tudjuk, mivel is van dolgunk. Az</em><code>i</code>,<code>j</code>,<code>k</code>,<code>l</code> <em>betűket az egymás utáni dimenziójú indexváltozókra szokás használni. Azonban mivel itt a value nem az indexváltozó, hanem közvetlenül x i-edik értéke így illik legalább</em> <code>value</code><em>-nak hívni, de inkább valami adjunk neki valami beszéldes nevet, ami alapján egyértelmű, hogy milyen értékkel dolgozunk épp a ciklusban. Ha például egy</em> <code>data.frame</code> <em>megfelelő oszlopán futunk végig:</em></p>
+<pre class="r"><code>for(life.span in experiment$life.span){
+    … 
+}</code></pre>
+<p>Ezek segítségével már megírhatjuk a szortírozós kódunkat, amit a vezérlési utasításoknál félbehagytunk:</p>
+<pre class="r"><code>if (x%%2==0) {
+  print (&quot;x is divisible by 2&quot;)
+} else if (x%%3==0) { 
+  print(&quot;x is divisible by 3&quot;)
+} else if(x%%5==0) {
+    print(&quot;x is divisible by 5&quot;)
+} else {
+    print(&quot;where did this come from&quot;)
+}</code></pre>
+<p>Ha már x volt a változó, maradjunk annál, de kérek mindenkit, erősen ráncolja a homlokát, és jegyezze meg magában, hogy “ez bizony így nagyon nem szép!”</p>
+<pre class="r"><code>vector &lt;- 1:100
+div.2 &lt;- NULL
+div.3 &lt;- NULL
+div.5 &lt;- NULL
+others &lt;- NULL
+
+for (x in vector){
+  if (x%%2==0) {
+    div.2 &lt;- c(div.2, x)
+  } else if (x%%3==0) {
+    div.3 &lt;- c(div.3, x)
+  } else if(x%%5==0) {
+    div.5 &lt;- c(div.5, x)
+  } else {
+    others &lt;- c(others, x)
+  }
+}
+
+div.2</code></pre>
+<pre><code>##  [1]   2   4   6   8  10  12  14  16  18  20  22  24  26  28  30  32  34
+## [18]  36  38  40  42  44  46  48  50  52  54  56  58  60  62  64  66  68
+## [35]  70  72  74  76  78  80  82  84  86  88  90  92  94  96  98 100</code></pre>
+<pre class="r"><code>div.3</code></pre>
+<pre><code>##  [1]  3  9 15 21 27 33 39 45 51 57 63 69 75 81 87 93 99</code></pre>
+<pre class="r"><code>div.5</code></pre>
+<pre><code>## [1]  5 25 35 55 65 85 95</code></pre>
+<pre class="r"><code>others</code></pre>
+<pre><code>##  [1]  1  7 11 13 17 19 23 29 31 37 41 43 47 49 53 59 61 67 71 73 77 79 83
+## [24] 89 91 97</code></pre>
+<p>Ha megnézzük, a hárommal osztható páros számok, csak a div.2-be kerültek be, ahogyan a 10-el osztható számok is, míg a 15-el oszthatók csak a div.3-ba.</p>
+<p>Ez azért van mert csak egyszer az <code>if-else</code> blokk-on belül csak az egyik utasítás futhat le. Ha az <code>if</code>, vagy valamelyik <code>else if</code> utáni feltétel teljesül, lefut az utána lévő kód, majd az <code>if-else</code> blokk végére ugrik az interpreter.</p>
+<p>Ezt úgy tudjuk elkerülni, ha nem használunk if-else blokkot, hanem mindegyik feltételt <code>if</code>-fel kezdjük.</p>
+<pre class="r"><code>vector &lt;- 1:100
+div.2 &lt;- NULL
+div.3 &lt;- NULL
+div.5 &lt;- NULL
+others &lt;- NULL
+
+for (x in vector){
+  if (x%%2==0) {
+    div.2 &lt;- c(div.2, x)
+  } 
+  if (x%%3==0) {
+    div.3 &lt;- c(div.3, x)
+  } 
+  if(x%%5==0) {
+    div.5 &lt;- c(div.5, x)
+  } else {
+    others &lt;- c(others, x)
+  }
+}
+
+div.2</code></pre>
+<pre><code>##  [1]   2   4   6   8  10  12  14  16  18  20  22  24  26  28  30  32  34
+## [18]  36  38  40  42  44  46  48  50  52  54  56  58  60  62  64  66  68
+## [35]  70  72  74  76  78  80  82  84  86  88  90  92  94  96  98 100</code></pre>
+<pre class="r"><code>div.3</code></pre>
+<pre><code>##  [1]  3  6  9 12 15 18 21 24 27 30 33 36 39 42 45 48 51 54 57 60 63 66 69
+## [24] 72 75 78 81 84 87 90 93 96 99</code></pre>
+<pre class="r"><code>div.5</code></pre>
+<pre><code>##  [1]   5  10  15  20  25  30  35  40  45  50  55  60  65  70  75  80  85
+## [18]  90  95 100</code></pre>
+<pre class="r"><code>others</code></pre>
+<pre><code>##  [1]  1  2  3  4  6  7  8  9 11 12 13 14 16 17 18 19 21 22 23 24 26 27 28
+## [24] 29 31 32 33 34 36 37 38 39 41 42 43 44 46 47 48 49 51 52 53 54 56 57
+## [47] 58 59 61 62 63 64 66 67 68 69 71 72 73 74 76 77 78 79 81 82 83 84 86
+## [70] 87 88 89 91 92 93 94 96 97 98 99</code></pre>
+<p><code>div.1/2/3</code> és <code>others</code> azon vektoraink, amikben a szétszortírozott számainkat szeretnénk tartani. NULL-lal, vagy üresen (“semmivel”) inicializáljuk őket.</p>
+<p>Nos, gyakorlatilag véghezvittük a for ciklusok írásának alapvető módját. Először megírtuk egy változóra, majd általánosítottuk többre.</p>
+<p>Kimaradt az iteráció ugrás. Ezt a <code>next</code> utasítással tudjuk elérni. Amennyiben a <code>next</code> utasítás lefut, a ciklus rögtön a következő iterációra ugrik, az utasítás utáni sorokat ebben a körben figyelmen kívül hagyja. Ezt természetesen valamilyen feltételhez érdemes kötni.</p>
+<p>E mellett van lehetőség a ciklusok korai befejezésére, ez pedig a <code>break</code> utasítással történik. Természetesen ezeket illik valamilyen feltételhez kötni, különben nincs sok értelmük.</p>
+</div>
+</div>
+<div id="szotar" class="section level1">
+<h1>Szótár</h1>
+<table>
+<thead>
+<tr class="header">
+<th align="left">kifejezés</th>
+<th align="left">expression</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">ciklus</td>
+<td align="left">loop</td>
+</tr>
+<tr class="even">
+<td align="left">feltételes vezérlő utasítások</td>
+<td align="left">conditional statement</td>
+</tr>
+<tr class="odd">
+<td align="left">if kitétel</td>
+<td align="left">if clause</td>
+</tr>
+<tr class="even">
+<td align="left">Vektoriális</td>
+<td align="left">Vectorial</td>
+</tr>
+<tr class="odd">
+<td align="left">Logikai</td>
+<td align="left">Logical</td>
+</tr>
+<tr class="even">
+<td align="left">ÉS</td>
+<td align="left">AND</td>
+</tr>
+<tr class="odd">
+<td align="left">VAGY</td>
+<td align="left">OR</td>
+</tr>
+<tr class="even">
+<td align="left">NEM</td>
+<td align="left">NOT</td>
+</tr>
+<tr class="odd">
+<td align="left">Egyenlő</td>
+<td align="left">Equals to</td>
+</tr>
+<tr class="even">
+<td align="left">Nem egyenlő</td>
+<td align="left">Not equals to / does not equal to</td>
+</tr>
+<tr class="odd">
+<td align="left">Kisebb</td>
+<td align="left">Less than</td>
+</tr>
+<tr class="even">
+<td align="left">Nagyobb</td>
+<td align="left">Greater than</td>
+</tr>
+<tr class="odd">
+<td align="left">Kisebb egyenlő</td>
+<td align="left">Less than or equals to</td>
+</tr>
+<tr class="even">
+<td align="left">Nagyobb egyenlő</td>
+<td align="left">Greater than or equals to</td>
+</tr>
+<tr class="odd">
+<td align="left">Tartalmazza</td>
+<td align="left">Includes</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 

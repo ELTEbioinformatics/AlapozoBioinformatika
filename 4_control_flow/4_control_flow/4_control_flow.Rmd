@@ -476,7 +476,7 @@ sum <- 30 + 20
 sum <- sum + 25
 ```	
 
-_Figyeljük meg, hogy nem_ `i`_-nek hívjuk a változót, hanem value-nak. Hasznos, ha olyan nevet adunk a változóinknak, ami alapján egyből tudjuk, mivel is van dolgunk. Az_`i`,`j`,`k`,`l` _betűket az egymás utáni dimenziójú indexváltozókra szokás használni, ezekről többet a kiadott loops.pdf-ben olvashattok. Azonban mivel itt a value nem az indexváltozó, hanem közvetlenül x i-edik értéke így illik legalább_ `value`_-nak hívni, de inkább valami adjunk neki valami beszéldes nevet, ami alapján egyértelmű, hogy milyen értékkel dolgozunk épp a ciklusban. Ha például egy_ `data.frame` _megfelelő oszlopán futunk végig:_
+_Figyeljük meg, hogy nem_ `i`_-nek hívjuk a változót, hanem value-nak. Hasznos, ha olyan nevet adunk a változóinknak, ami alapján egyből tudjuk, mivel is van dolgunk. Az_`i`,`j`,`k`,`l` _betűket az egymás utáni dimenziójú indexváltozókra szokás használni. Azonban mivel itt a value nem az indexváltozó, hanem közvetlenül x i-edik értéke így illik legalább_ `value`_-nak hívni, de inkább valami adjunk neki valami beszéldes nevet, ami alapján egyértelmű, hogy milyen értékkel dolgozunk épp a ciklusban. Ha például egy_ `data.frame` _megfelelő oszlopán futunk végig:_
 
 ```{r eval=F}
 for(life.span in experiment$life.span){
@@ -566,4 +566,21 @@ Kimaradt az iteráció ugrás. Ezt a `next` utasítással tudjuk elérni. Amenny
 
 E mellett van lehetőség a ciklusok korai befejezésére, ez pedig a `break` utasítással történik. Természetesen ezeket illik valamilyen feltételhez kötni, különben nincs sok értelmük.
 
-A next és break utasításról többet a loops.pdf fájlban olvashattok.
+# Szótár
+| kifejezés                     | expression                        |
+|-------------------------------|-----------------------------------|
+| ciklus                        | loop                              |
+| feltételes vezérlő utasítások | conditional statement             |
+| if kitétel                    | if clause                         |
+| Vektoriális                   | Vectorial                         |
+| Logikai                       | Logical                           |
+| ÉS                            | AND                               |
+| VAGY                          | OR                                |
+| NEM                           | NOT                               |
+| Egyenlő                       | Equals to                         |
+| Nem egyenlő                   | Not equals to / does not equal to |
+| Kisebb                        | Less than                         |
+| Nagyobb                       | Greater than                      |
+| Kisebb egyenlő                | Less than or equals to            |
+| Nagyobb egyenlő               | Greater than or equals to         |
+| Tartalmazza                   | Includes                          |
