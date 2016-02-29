@@ -1,0 +1,68 @@
+---
+title: "Homework 2"
+author: "Tamas Kadlecsik"
+date: "February 26, 2016"
+output: pdf_document
+---
+
+# Házi feladat
+
+Dolgozzuk fel az órán letöltött experiments.zip teljes tartalmát, a legutóbbi házi feladat alap, és extrafeladatainak mintájára. Emlékeztetőül:
+
+Olvassuk be az `experiment[i].csv`-t (vesszővel tagolt értékek). Számoljuk ki az egerek élethosszát, 
+majd csatoljuk a táblázathoz „lifespan” néven. Írjuk ki az új táblázatokat egy másik mappába, 
+fájlokba. Ezek után átlagoljuk ki egy listába az egerek súlyát és élethosszát, majd írjuk ki ezt is egy 
+means mappába.
+
+A summary által kiadott adatokat egy summary mappába írjuk ki.
+
+Ezeket a mappákat tegyük egy .zip állományba, és egyben küldjük el!
+
+Külön átlagoljuk ki azon állatok súlyát és élethosszát, amelyek a kezelt, illetve azokét, amelyek a kezeletlen diétát kapták külön-külön! Ismét csak mentsük megfelelő mappákba az eredményeket! Átlagoljuk ki azon állatok élethosszát és súlyát amelyek
+
+treatment: control diet: control
+treatment: treated diet: treated
+treatment: control diet: treated
+treatment: treated diet: control
+
+csoportokban voltak
+
+Aki megírta az alap házifeladatot, annak csupán át kell írnia for ciklussá, és kész is. Éppen ezért,
+további gyakorló házi feladat:
+
+Írjunk olyan imperatív R scripteket, (vagyis lehetőleg függvényhívás nélkülieket), amelyek:
+
+## Ciklusok :
+
+- Számoljuk ki az `1·2+2·3+3·4+ ... + 249·250` összeget!
+- Számoljuk ki a `7!`, `10!`, `15!`, `17!` faktoriálisokat!
+- Számoljuk ki $$1 + \frac{1}{1!} + \frac{1}{2!} + \frac{1}{3!} + ... + \frac {1}{10000!}$$ összeget! Írassuk ki az eredményt. Felismerjük a kapott számot?
+
+## Feltételes vezérlés:
+
+Írjunk programot, ami kiírja a `1+2+3+...+300` összeget. Amennyiben az összeg átlépi 20
+többszöröseit, írassuk ki azt. Vagyis írjunk egy olyan ciklust, ami pörög addig amíg `sum < 20`. Ha `sum > 20` kiírja az összeget, majd pörög tovább printelés nélkül, egész addig, amíg `sum > 40` és így tovább.
+
+## A 3n+1 játék:
+
+A 3n+1 egy izgalmas matematikai játék... Höhö. Mindegy, a lényege, hogy van egy kezdő számunk N. Ha N páros, elosztjuk kettővel, ha páratlan megszorozzuk 3-al és hozzáadunk egyet. Majd a kapott számot nézzük meg, ha páros, 2-vel osztjuk,
+ha páratlan szorozzuk hárommal 3-al és hozzáadunk egyet, és így tovább, amíg egyet nem kapunk.
+Vagyis a szabály:
+
+$$
+f(n) = 
+\begin{cases}
+  \frac{n}{2}, & \text{if} \quad 2 \ | \ n\\ 
+  3n+1, & \text{if} \quad 2 \ | \ n + 1
+\end{cases}
+$$
+
+Mindeddig bárki próbálta a játékot végül 1-et kapott, azonban az hogy valóban minden kezdőérték egyet ad-e végül még nyitott kérdés, sem bizonyítani, sem cáfolni nem sikerült.
+
+Írjunk scriptet, ami egy kezdeti változóval végig játssza a 3n+1 játékot!
+
+Természetesen a `c()` függvény használata változódeklarálás és összefűzés céljából, illetve logikai
+függvények használata megengedett.
+
+A megoldásokat kérem .R-ként a tamas.kadlecsik@gmail.com-ra. Tárgy: bio_hw, hogy automatizálni
+tudjam a lefűzést.
