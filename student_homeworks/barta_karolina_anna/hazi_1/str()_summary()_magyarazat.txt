@@ -1,0 +1,8 @@
+Az str() fuggveny megadja, hogy egy objektumban/tablazatban hany tetel/elem van (267) es ezeknek hany valtozoja van
+hozzajuk csatolva (7). Majd leirja az osszes valtozo tipusat (pl. factor, int, num). A "factor" eseten leirja, hogy annak
+hany esete lehet es hogy melyek ezek az esetek. Ezutan elkezdi felsorolni a valtozok ertekeit.
+Megjegyzes: az str(mice)-bol letrehozta a .csv fajlt de abban nem kaptam semmit, max ket idezojelet. Nem tudom, miert?
+
+A summary() fuggveny kulonbozo dolgokat ad meg aszerint, hogy a valtozonak mi a tipusa. A factor eseten felsorolja, hogy 
+az adott esetbol hany darab van, szamok (egesz- es tortszamok egyarant) eseten kiirja a legkisebb, legnagyobb erteket, a 
+mediant, az atlagot, valamint az elso es harmadik negyedelo pontot.

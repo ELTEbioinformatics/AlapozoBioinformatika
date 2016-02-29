@@ -1,0 +1,12 @@
+﻿A summary() és az str() függvények által kiadott eredmény magyarázata:
+
+
+summary()
+
+Az első oszlopban kiadja az első 6 elemet (itt a táblázat első oszlopának első 6 tagját), vagyis az azonosíókat. Emellett minden további oszlop tartalmáról összesített eredményeket közöl. Például a születések (born), halálozások (died), súly (weight) és élettartam (lifespan) oszlopok esetén minimum, maximum, átlag, medián értékek. A kezelés (treatment) és étrend (diet) oszlopok esetén az egyes kategóriák előfordulásának a számosságát adja ki, ami mindkét esetben control és treated.
+Összességében tehát ez a függvény a táblázat tartalmáról ad egy jó áttekintést.
+
+
+str()
+
+Az első sorban megadja, hogy hány vizsgálati alanyról lettek információk gyűjtve, illetve ugyanitt megadja, hogy 7-féle "változóra" (variables), vagyis 7 tulajdonságra vizsgálták az egereket. A többi sorban azt adja ki, hogy az egyes tulajdonságokhoz tartozó értékek milyen típusúak (pl. Factor, int, num), illetve ezeknek az első néhány tagját. Összegezve, ennek a függvénynek a segítségével megtudhatjuk a táblázatról, hogy milyen elemeket tartalmaz.
