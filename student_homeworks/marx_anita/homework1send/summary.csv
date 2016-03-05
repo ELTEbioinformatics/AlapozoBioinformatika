@@ -1,8 +1,0 @@
-" Specimen.ID","     born","     died","  treatment","     diet","    weight","   lifespan"
-"#10475 :  1  ","Min.   :   0.0  ","Min.   :1234  ","control:128  ","control:145  ","Min.   :10.03  ","Min.   :1200  "
-"#11326 :  1  ","1st Qu.: 190.0  ","1st Qu.:1454  ","treated:139  ","treated:122  ","1st Qu.:12.25  ","1st Qu.:1226  "
-"#11809 :  1  ","Median : 501.0  ","Median :1762  ",NA,NA,"Median :14.75  ","Median :1250  "
-"#12079 :  1  ","Mean   : 508.8  ","Mean   :1759  ",NA,NA,"Mean   :14.84  ","Mean   :1250  "
-"#12320 :  1  ","3rd Qu.: 783.0  ","3rd Qu.:2050  ",NA,NA,"3rd Qu.:17.36  ","3rd Qu.:1275  "
-"#12840 :  1  ","Max.   :1094.0  ","Max.   :2381  ",NA,NA,"Max.   :19.96  ","Max.   :1300  "
-"(Other):261  ",NA,NA,NA,NA,NA,NA
