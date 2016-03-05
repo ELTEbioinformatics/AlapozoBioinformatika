@@ -330,13 +330,13 @@ is.na()</code></pre>
 <p>Miért beszélünk erről a logikai operátoroknál?</p>
 <p>Nézzük meg mi történik, ha</p>
 <pre class="r"><code>experiment[,c(F,T)]</code></pre>
-<p>Vagyis kiegészítette a mintázatot 5-ig, tehát ez a hívás megegyezik a következővel:</p>
-<pre class="r"><code>experiment[,c(F,T,F,T,F)]</code></pre>
+<p>Vagyis kiegészítette a mintázatot 6-ig, tehát ez a hívás megegyezik a következővel:</p>
+<pre class="r"><code>experiment[,c(F,T,F,T,F,T)]</code></pre>
 <p>Tehát</p>
-<pre class="r"><code>experiment[T,T,F]</code></pre>
+<pre class="r"><code>experiment[,c(T,T,F)]</code></pre>
 <p>Ugyanaz, mint:</p>
-<pre class="r"><code>experiment[T,T,F,T,T]</code></pre>
-<p>Az utolsó F már nem fér ki, mivel csak 5 oszlopunk van. Ugyanez sorokkal is működik:</p>
+<pre class="r"><code>experiment[,c(T,T,F,T,T,F)]</code></pre>
+<p>Ugyanez sorokkal is működik:</p>
 <pre class="r"><code>experiment[c(F,T), c(F,T)]</code></pre>
 <p>Megkaptuk az experiment minden második sorát, és oszlopát.</p>
 <p>Most nézzük meg mi történik, ha a data.frame-et logikai vizsgálatnak vetjük alá:</p>

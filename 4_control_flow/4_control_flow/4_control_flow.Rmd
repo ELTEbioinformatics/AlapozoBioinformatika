@@ -2,7 +2,7 @@
 title: "Control flow"
 author: "Tamas Kadlecsik"
 date: "February 25, 2016"
-output: pdf_document
+output: html_document
 ---
 
 # Vezérlés
@@ -259,25 +259,24 @@ Nézzük meg mi történik, ha
 experiment[,c(F,T)]
 ```
 
-Vagyis kiegészítette a mintázatot 5-ig, tehát ez a hívás megegyezik a következővel:
+Vagyis kiegészítette a mintázatot 6-ig, tehát ez a hívás megegyezik a következővel:
 
 ```{r eval=F}
-experiment[,c(F,T,F,T,F)]
+experiment[,c(F,T,F,T,F,T)]
 ```
 
 Tehát 
 
 ```{r eval=F}
-experiment[T,T,F]
+experiment[,c(T,T,F)]
 ```
 
 Ugyanaz, mint:
 
 ```{r eval=F}
-experiment[T,T,F,T,T]
+experiment[,c(T,T,F,T,T,F)]
 ```
 
-Az utolsó F már nem fér ki, mivel csak 5 oszlopunk van.
 Ugyanez sorokkal is működik:
 
 ```{r eval=F}
