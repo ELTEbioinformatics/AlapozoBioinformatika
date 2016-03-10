@@ -97,11 +97,11 @@ j(x,y) =
 \end{cases}
 \]</span></p>
 <p>Jelen függvényünk <span class="math">\(x+y\)</span>-t ad vissza, ha a beadott <span class="math">\(x\)</span> egynél kisebb. Ha 1 és 100 között van, akkor <span class="math">\(y\)</span> négyzetét adja vissza. A harmadik esetben pedig <span class="math">\(x\)</span> az <span class="math">\(y\)</span>-adikont adunk vissza. Az, hogy a 2. esetben <span class="math">\(x\)</span>-et ne használjuk fel teljesen megengedett. Sőt, mindhárom esetben vizsgálhatnánk <span class="math">\(x\)</span>-et, és csak <span class="math">\(y\)</span>-al kezdenénk valamit. Tehát:</p>
-<p><span class="math">\[ j(0.5, 6) = 6.5 \]</span></p>
+<p><span class="math">\[ j(0.5, 6) = 1.5 \]</span></p>
 <p>x kisebb egy, így <span class="math">\(j(x,y) = x+1\)</span></p>
-<p><span class="math">\[ j(15, 2) \]</span></p>
+<p><span class="math">\[ j(15, 2) = 4 \]</span></p>
 <p><span class="math">\(x\)</span> 1 és 100 között van, így <span class="math">\(y\)</span> négyzetét adjuk vissza, vagyis <span class="math">\(j(x,y) = y^2\)</span></p>
-<p><span class="math">\[ j(2,100) = 1.267651 \times 10^{30} \]</span></p>
+<p><span class="math">\[ j(2,100) = 2^{100} \]</span></p>
 <p><span class="math">\(x\)</span> nagyobb vagy egyenlő <span class="math">\(100\)</span>-al, <span class="math">\(x\)</span> <span class="math">\(y\)</span>-adik hatványát adjuk vissza, vagyis <span class="math">\(j(x,y) = x^y\)</span></p>
 </div>
 <div id="r" class="section level1">
@@ -215,7 +215,7 @@ b &lt;- mischievous.function(a)</code></pre>
 <pre class="r"><code>str</code></pre>
 <pre><code>## function (object, ...) 
 ## UseMethod(&quot;str&quot;)
-## &lt;bytecode: 0x3138068&gt;
+## &lt;bytecode: 0x2965068&gt;
 ## &lt;environment: namespace:utils&gt;</code></pre>
 <p>Az str() függvény gépikódra lefordult, vagyis csupán az argumentumot kell a parancsértelmezőnek feldolgoznia, a függvény utasításait a számítógép közvetlenül tudja futtatni. Működése nagyban hasonlít az R-ben megírtakéhoz, azonban R-ben a függvények annyiban térnek el az általánostól, hogy más nyelvekben a függvényeknek nincs kötelező visszatérési értékük. Így a str()-nek sincs, csupán a konzolra printeli, az adott objektum struktúráját. Ezért nem tudtuk változóhoz rendelni, és kiírni az első házi feladatban.</p>
 </div>
@@ -322,39 +322,39 @@ redefined.sum &lt;- function(vector){
 ##     fill = TRUE, comment.char = &quot;&quot;, ...) 
 ## read.table(file = file, header = header, sep = sep, quote = quote, 
 ##     dec = dec, fill = fill, comment.char = comment.char, ...)
-## &lt;bytecode: 0x39a5f38&gt;
+## &lt;bytecode: 0x31d6988&gt;
 ## &lt;environment: namespace:utils&gt;</code></pre>
 <pre class="r"><code>read.csv2</code></pre>
 <pre><code>## function (file, header = TRUE, sep = &quot;;&quot;, quote = &quot;\&quot;&quot;, dec = &quot;,&quot;, 
 ##     fill = TRUE, comment.char = &quot;&quot;, ...) 
 ## read.table(file = file, header = header, sep = sep, quote = quote, 
 ##     dec = dec, fill = fill, comment.char = comment.char, ...)
-## &lt;bytecode: 0x36cead0&gt;
+## &lt;bytecode: 0x2efe900&gt;
 ## &lt;environment: namespace:utils&gt;</code></pre>
 <pre class="r"><code>read.delim</code></pre>
 <pre><code>## function (file, header = TRUE, sep = &quot;\t&quot;, quote = &quot;\&quot;&quot;, dec = &quot;.&quot;, 
 ##     fill = TRUE, comment.char = &quot;&quot;, ...) 
 ## read.table(file = file, header = header, sep = sep, quote = quote, 
 ##     dec = dec, fill = fill, comment.char = comment.char, ...)
-## &lt;bytecode: 0x3a91438&gt;
+## &lt;bytecode: 0x32c1e98&gt;
 ## &lt;environment: namespace:utils&gt;</code></pre>
 <pre class="r"><code>read.delim2</code></pre>
 <pre><code>## function (file, header = TRUE, sep = &quot;\t&quot;, quote = &quot;\&quot;&quot;, dec = &quot;,&quot;, 
 ##     fill = TRUE, comment.char = &quot;&quot;, ...) 
 ## read.table(file = file, header = header, sep = sep, quote = quote, 
 ##     dec = dec, fill = fill, comment.char = comment.char, ...)
-## &lt;bytecode: 0x3af5af8&gt;
+## &lt;bytecode: 0x3326558&gt;
 ## &lt;environment: namespace:utils&gt;</code></pre>
 <p>A különbség annyi, hogy az “utolsó sor visszatér” működést használja ki, illetve, hogy van mind a read.csv paraméterlistájának, mind a megívhott read.table argumentum listájának végén látunk egy <code>...</code>-ot. (<em>Angolul ezt ellipsis-nek hívják, ha valaki utánanézne</em>). Ez semmi mást nem jelent, mint hogy a felsorolt paramétereken túl, végtelen argumentumot lehet átadni a read.csv-nek, az pedig ezeket váltoatlan formában átadja a read.table-nek. A read.table-nek rengeteg további állítható paramétere van, melós és fölösleges lenne midet fölsorolni a read.csv-ben.</p>
 <p>Létezik write.csv is, de az például nem ennyire kényelmes, így érdemes sajátot használni helyette</p>
-<pre class="r"><code>write.csv.custom &lt;- function(x, file, ...) {
-  write.table(x, file, quote=F, sep=',', row.names=F, ...)
+<pre class="r"><code>write.csv.custom &lt;- function(x, file, quote=F, sep=',', row.names=F, ...) {
+  write.table(x, file, quote=quote, sep=sep, row.names=row.names, ...)
 }</code></pre>
 <p>Az eredetiben például a a row.names-t true-ra állítja, aminek általában nincs sok értelme. Azért a végére tettük a custom jelölést, mert így ha elfelejtjük mivel különböztettük meg az eredetitől csak elkezdjük írni, hogy <code>write.csv</code> és a felajánlott listából már eszünkbe juthat, melyik a miénk. Fölül pedig azért nem írtuk, mert ha dolgozunk egy projecten, simán lehet, hogy még a befejezése előtt máshova sodor minket az élet, és másnak kell folytatnia. Ilyen esetben az illető elvárná, hogy a <code>write.csv</code> úgy működjön mint amit a <code>?write.csv</code> állít, de nem fog, mert mi fölülírtuk. Röviden: beépített függvényeket fülüírni bunkó dolog.</p>
 <p>Ez a függvény igen általános, és akár életünk végig ki is szolgálhat minket. Azonban a 100 kísérlet feldolgozásakor igen sokszor kellett a paste() függvényt használnunk, hogy létrehozzuk a fájlneveinket, azt is érdemes lett volna beburkolni:</p>
 <pre class="r"><code>write.result &lt;- function(x, path, filename, num='') {
   path &lt;- paste(path, filename, sep='')
-  destination &lt;- paste(path, '.csv', sep=as.character(i))
+  destination &lt;- paste(path, '.csv', sep=as.character(num))
   write.csv.custom(x, destination)
 }</code></pre>
 <p>Arra, hogy mi az az utoasítás, amit még érdemes a függvénybe tenni, és mi az amit már nem, csak sok sok tapasztalat és refaktorálás árán tud rájönni az ember.</p>
@@ -366,13 +366,13 @@ redefined.sum &lt;- function(vector){
 <p>A <code>chinese_experiment_processor.R</code> olvassa be a 100 fájlt, kiértékeli, és írja ki. De régóta magunkkal hordozott, bővített és tökéletesített <code>functions.R</code>-fájlunkban van definiálva a <code>write.result</code> függvényünk, amit mi szeretnénk felhasználni. Ehhez az kell, hogy az <code>functions.R</code> lefusson, és definiálja a függvényünket még mielőtt a <code>chinese_experiment_processor.R</code> felhasználná. Ezt pedig a <code>source(file)</code> függvénnyel tudjuk megtenni.</p>
 <p>Tegyük fel, hogy a <code>function.R</code> a <code>chinese_experiment_processor.R</code> melletti <code>utils</code> mappában van. Fájljaink a következőképp néznének ki ez esetben:</p>
 <p><code>functions.R</code>:</p>
-<pre class="r"><code>write.csv.custom &lt;- function(x, file, ...) {
-  write.table(x, file, quote=F, sep=',', row.names=F, ...)
+<pre class="r"><code>write.csv.custom &lt;- function(x, file, quote=F, sep=',', row.names=F, ...) {
+  write.table(x, file, quote=quote, sep=sep, row.names=row.names, ...)
 }
 
 write.result &lt;- function(x, path, filename, num='') {
   path &lt;- paste(path, filename, sep='')
-  destination &lt;- paste(path, '.csv', sep=as.character(i))
+  destination &lt;- paste(path, '.csv', sep=as.character(num))
   write.csv.custom(x, destination)
 }</code></pre>
 <p><code>chinese_experiment_processor.R</code>:</p>

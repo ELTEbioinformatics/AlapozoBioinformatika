@@ -58,15 +58,15 @@ $$
 Jelen függvényünk \(x+y\)-t ad vissza, ha a beadott \(x\) egynél kisebb. Ha 1 és 100 között van, akkor \(y\) négyzetét adja vissza. A harmadik esetben pedig \(x\) az \(y\)-adikont adunk vissza. Az, hogy a 2. esetben \(x\)-et ne használjuk fel teljesen megengedett. Sőt, mindhárom esetben vizsgálhatnánk \(x\)-et, és csak \(y\)-al kezdenénk valamit.
 Tehát:
 
-$$ j(0.5, 6) = 6.5 $$
+$$ j(0.5, 6) = 1.5 $$
 
 x kisebb egy, így \(j(x,y) = x+1\)
 
-$$ j(15, 2) $$
+$$ j(15, 2) = 4 $$
 
 \(x\) 1 és 100 között van, így \(y\) négyzetét adjuk vissza, vagyis \(j(x,y) = y^2\)
 
-$$ j(2,100) = 1.267651 \times 10^{30} $$
+$$ j(2,100) = 2^{100} $$
 
 \(x\) nagyobb vagy egyenlő \(100\)-al, \(x\) \(y\)-adik hatványát adjuk vissza, vagyis \(j(x,y) = x^y\)
 
@@ -396,8 +396,8 @@ A különbség annyi, hogy az "utolsó sor visszatér" működést használja ki
 Létezik write.csv is, de az például nem ennyire kényelmes, így érdemes sajátot használni helyette
 
 ```{r}
-write.csv.custom <- function(x, file, ...) {
-  write.table(x, file, quote=F, sep=',', row.names=F, ...)
+write.csv.custom <- function(x, file, quote=F, sep=',', row.names=F, ...) {
+  write.table(x, file, quote=quote, sep=sep, row.names=row.names, ...)
 }
 ```
 
@@ -408,7 +408,7 @@ Ez a függvény igen általános, és akár életünk végig ki is szolgálhat m
 ```{r}
 write.result <- function(x, path, filename, num='') {
   path <- paste(path, filename, sep='')
-  destination <- paste(path, '.csv', sep=as.character(i))
+  destination <- paste(path, '.csv', sep=as.character(num))
   write.csv.custom(x, destination)
 }
 ```
@@ -428,13 +428,13 @@ Tegyük fel, hogy a `function.R` a `chinese_experiment_processor.R` melletti `ut
 `functions.R`:
 
 ```{r eval=FALSE}
-write.csv.custom <- function(x, file, ...) {
-  write.table(x, file, quote=F, sep=',', row.names=F, ...)
+write.csv.custom <- function(x, file, quote=F, sep=',', row.names=F, ...) {
+  write.table(x, file, quote=quote, sep=sep, row.names=row.names, ...)
 }
 
 write.result <- function(x, path, filename, num='') {
   path <- paste(path, filename, sep='')
-  destination <- paste(path, '.csv', sep=as.character(i))
+  destination <- paste(path, '.csv', sep=as.character(num))
   write.csv.custom(x, destination)
 }
 ```
