@@ -2,7 +2,7 @@
 title: "Functions"
 author: "Tamas Kadlecsik"
 date: "March 5, 2016"
-output: pdf_document
+output: html_document
 ---
 
 #Matematika
@@ -407,7 +407,7 @@ Ez a függvény igen általános, és akár életünk végig ki is szolgálhat m
 
 ```{r}
 write.result <- function(x, path, filename, num='') {
-  path <- paste(path, filename, sep='')
+  path <- paste(path, filename, sep='/')
   destination <- paste(path, '.csv', sep=as.character(num))
   write.csv.custom(x, destination)
 }
@@ -433,7 +433,7 @@ write.csv.custom <- function(x, file, quote=F, sep=',', row.names=F, ...) {
 }
 
 write.result <- function(x, path, filename, num='') {
-  path <- paste(path, filename, sep='')
+  path <- paste(path, filename, sep='/')
   destination <- paste(path, '.csv', sep=as.character(num))
   write.csv.custom(x, destination)
 }
@@ -445,15 +445,15 @@ write.result <- function(x, path, filename, num='') {
 source('utils/functions.R')
 
 for (i in 1:100){
-  file.name <- paste('4/experiments/experiment', '.csv', sep=as.character(i))
+  file.name <- paste('4/experiments/experiment/', '.csv', sep=as.character(i))
   exp <- read.csv(file.name)
   
   exp$life.span <- exp$died - exp$born
   
-  out.file <- paste('4/results/result', '.csv', sep=as.character(i))
+  out.file <- paste('4/results/result/', '.csv', sep=as.character(i))
   write.result (exp, 'result')
   
-  summary.file <- paste('4/results/summary', '.csv', sep=as.character(i))
+  summary.file <- paste('4/results/summary/', '.csv', sep=as.character(i))
   write.result (summary(exp), 'summary')
   
   means.list <- list(life.span=mean(exp$life.span), weight=mean(exp$weight))
