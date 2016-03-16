@@ -2,7 +2,7 @@
 title: "Functions"
 author: "Tamas Kadlecsik"
 date: "March 5, 2016"
-output: html_document
+output: pdf_document
 ---
 
 #Matematika
@@ -445,19 +445,23 @@ write.result <- function(x, path, filename, num='') {
 source('utils/functions.R')
 
 for (i in 1:100){
-  file.name <- paste('4/experiments/experiment/', '.csv', sep=as.character(i))
+  file.name <- paste('experiments/experiment', '.csv', sep=as.character(i))
   exp <- read.csv(file.name)
   
   exp$life.span <- exp$died - exp$born
   
-  out.file <- paste('4/results/result/', '.csv', sep=as.character(i))
-  write.result (exp, 'result')
+  #results
+  if (dir.exists("results") == F) dir.create("results")
+  write.result (exp, 'results', 'result', num=i)
   
-  summary.file <- paste('4/results/summary/', '.csv', sep=as.character(i))
-  write.result (summary(exp), 'summary')
+  #summaries
+  if (dir.exists("summaries") == F) dir.create("summaries")
+  write.result (summary(exp), 'summaries', 'summary', num=i)
   
+  #means
+  if (dir.exists("means") == F) dir.create("means")
   means.list <- list(life.span=mean(exp$life.span), weight=mean(exp$weight))
-  write.table(means.list, 'means', quote = F, sep=',', row.names = F)
+  write.result(means.list, 'means', 'mean', num=i)
 }
 ```
 
@@ -499,6 +503,3 @@ simple.abstract.function <- function(abstract.object){
 
 
 Egyszerű ökölszabályként mondhatjuk, hogy egy függvény lehetőleg sose tartalmazzon többet 5 sornál, 10 sornál többet pdig csak igen kivételes esetekben! Persze ehhez azért nem kell görcsösen ragaszkodni.
-
-
-

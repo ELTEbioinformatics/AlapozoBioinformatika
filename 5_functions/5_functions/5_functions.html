@@ -215,7 +215,7 @@ b &lt;- mischievous.function(a)</code></pre>
 <pre class="r"><code>str</code></pre>
 <pre><code>## function (object, ...) 
 ## UseMethod(&quot;str&quot;)
-## &lt;bytecode: 0x25756a8&gt;
+## &lt;bytecode: 0x2e52538&gt;
 ## &lt;environment: namespace:utils&gt;</code></pre>
 <p>Az str() függvény gépikódra lefordult, vagyis csupán az argumentumot kell a parancsértelmezőnek feldolgoznia, a függvény utasításait a számítógép közvetlenül tudja futtatni. Működése nagyban hasonlít az R-ben megírtakéhoz, azonban R-ben a függvények annyiban térnek el az általánostól, hogy más nyelvekben a függvényeknek nincs kötelező visszatérési értékük. Így a str()-nek sincs, csupán a konzolra printeli, az adott objektum struktúráját. Ezért nem tudtuk változóhoz rendelni, és kiírni az első házi feladatban.</p>
 </div>
@@ -322,28 +322,28 @@ redefined.sum &lt;- function(vector){
 ##     fill = TRUE, comment.char = &quot;&quot;, ...) 
 ## read.table(file = file, header = header, sep = sep, quote = quote, 
 ##     dec = dec, fill = fill, comment.char = comment.char, ...)
-## &lt;bytecode: 0x3616c78&gt;
+## &lt;bytecode: 0x3f05160&gt;
 ## &lt;environment: namespace:utils&gt;</code></pre>
 <pre class="r"><code>read.csv2</code></pre>
 <pre><code>## function (file, header = TRUE, sep = &quot;;&quot;, quote = &quot;\&quot;&quot;, dec = &quot;,&quot;, 
 ##     fill = TRUE, comment.char = &quot;&quot;, ...) 
 ## read.table(file = file, header = header, sep = sep, quote = quote, 
 ##     dec = dec, fill = fill, comment.char = comment.char, ...)
-## &lt;bytecode: 0x36a8fc0&gt;
+## &lt;bytecode: 0x3f97748&gt;
 ## &lt;environment: namespace:utils&gt;</code></pre>
 <pre class="r"><code>read.delim</code></pre>
 <pre><code>## function (file, header = TRUE, sep = &quot;\t&quot;, quote = &quot;\&quot;&quot;, dec = &quot;.&quot;, 
 ##     fill = TRUE, comment.char = &quot;&quot;, ...) 
 ## read.table(file = file, header = header, sep = sep, quote = quote, 
 ##     dec = dec, fill = fill, comment.char = comment.char, ...)
-## &lt;bytecode: 0x3711060&gt;
+## &lt;bytecode: 0x3ffe960&gt;
 ## &lt;environment: namespace:utils&gt;</code></pre>
 <pre class="r"><code>read.delim2</code></pre>
 <pre><code>## function (file, header = TRUE, sep = &quot;\t&quot;, quote = &quot;\&quot;&quot;, dec = &quot;,&quot;, 
 ##     fill = TRUE, comment.char = &quot;&quot;, ...) 
 ## read.table(file = file, header = header, sep = sep, quote = quote, 
 ##     dec = dec, fill = fill, comment.char = comment.char, ...)
-## &lt;bytecode: 0x3d794d8&gt;
+## &lt;bytecode: 0x465d0f0&gt;
 ## &lt;environment: namespace:utils&gt;</code></pre>
 <p>A különbség annyi, hogy az “utolsó sor visszatér” működést használja ki, illetve, hogy van mind a read.csv paraméterlistájának, mind a megívhott read.table argumentum listájának végén látunk egy <code>...</code>-ot. (<em>Angolul ezt ellipsis-nek hívják, ha valaki utánanézne</em>). Ez semmi mást nem jelent, mint hogy a felsorolt paramétereken túl, végtelen argumentumot lehet átadni a read.csv-nek, az pedig ezeket váltoatlan formában átadja a read.table-nek. A read.table-nek rengeteg további állítható paramétere van, melós és fölösleges lenne midet fölsorolni a read.csv-ben.</p>
 <p>Létezik write.csv is, de az például nem ennyire kényelmes, így érdemes sajátot használni helyette</p>
@@ -379,19 +379,23 @@ write.result &lt;- function(x, path, filename, num='') {
 <pre class="r"><code>source('utils/functions.R')
 
 for (i in 1:100){
-  file.name &lt;- paste('4/experiments/experiment/', '.csv', sep=as.character(i))
+  file.name &lt;- paste('experiments/experiment', '.csv', sep=as.character(i))
   exp &lt;- read.csv(file.name)
   
   exp$life.span &lt;- exp$died - exp$born
   
-  out.file &lt;- paste('4/results/result/', '.csv', sep=as.character(i))
-  write.result (exp, 'result')
+  #results
+  if (dir.exists(&quot;results&quot;) == F) dir.create(&quot;results&quot;)
+  write.result (exp, 'results', 'result', num=i)
   
-  summary.file &lt;- paste('4/results/summary/', '.csv', sep=as.character(i))
-  write.result (summary(exp), 'summary')
+  #summaries
+  if (dir.exists(&quot;summaries&quot;) == F) dir.create(&quot;summaries&quot;)
+  write.result (summary(exp), 'summaries', 'summary', num=i)
   
+  #means
+  if (dir.exists(&quot;means&quot;) == F) dir.create(&quot;means&quot;)
   means.list &lt;- list(life.span=mean(exp$life.span), weight=mean(exp$weight))
-  write.table(means.list, 'means', quote = F, sep=',', row.names = F)
+  write.result(means.list, 'means', 'mean', num=i)
 }</code></pre>
 </div>
 <div id="teszteles" class="section level2">
