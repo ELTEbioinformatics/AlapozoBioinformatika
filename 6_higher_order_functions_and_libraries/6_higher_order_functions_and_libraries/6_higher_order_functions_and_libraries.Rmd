@@ -76,7 +76,7 @@ $$
 
 és így tovább.
 
-A `higher.order` megírásakor még nem tudhatjuk, mennyi paramétere lesz a kapott függvénynek, de biztosítanunk kell, hogy a kapott extra paraméterek átkerülnek átadódnak a függvénynek.
+A `higher.order` megírásakor még nem tudhatjuk, mennyi paramétere lesz a kapott függvénynek, de biztosítanunk kell, hogy a kapott extra paraméterek átadódnak a függvénynek.
 
 ##`aggregate(formula, data, FUN, ..., subset, na.action = na.omit)`
 
@@ -85,13 +85,13 @@ Ez egy data.frame-en belüli oszlop numerikus értékeit aggregálja egy adott f
 
 ```{r}
 experiment <- read.csv("../../3_file_handling/homework_1/experiment.csv")
-aggregated <- aggregate(weight ~ treatment, data=experiment, FUN=mean)
+aggregated <- aggregate(weight ~ treatment, experiment, mean)
 aggregated
 ```
 
 Na akkor mégegyszer:
 Egy adott data.frame-en belül : experiment
-egy adott függvényt felhasználva : FUN=mean 
+egy adott függvényt felhasználva : mean 
 egy oszlop numerikus értékeit: weight
 egy csoport változó szerint: treatment
 aggregálja
@@ -102,7 +102,7 @@ Több numerikus értéket is vizsgálhatunk, ha cbinddal összefüzzük őket:
 
 ```{r}
 experiment$life.span <- experiment$died - experiment$born
-aggregated <- aggregate(cbind(weight, life.span) ~ treatment, data=experiment,  FUN=mean)
+aggregated <- aggregate(cbind(weight, life.span) ~ treatment, experiment,  mean)
 aggregated
 ```
 
@@ -110,7 +110,7 @@ Több csoportváltozót is megadhatunk a + operátor segítéségével:
 
 ```{r}
 experiment$life.span <- experiment$died - experiment$born
-aggregated <- aggregate(cbind(weight, life.span) ~ treatment + diet, data=experiment,  FUN=mean)
+aggregated <- aggregate(cbind(weight, life.span) ~ treatment + diet, experiment, mean)
 aggregated
 ```
 
@@ -168,7 +168,7 @@ A `lapply`-t bármilyen változón alkalmazhatjuk, ami listává alakítható, �
 A `*apply()` család másik gyakran alkalmazott tagja. Ez a simplified apply. No nem azért, mert könnyebb használni, hanem azért, mert a `lapply` mindig listát ad eredményül, és annak használata kicsit macerás. Azonban, ha vektoron futunk végig, vagy a listánk amúgy is könnyen vektorrá alakítható (mert mindegyik eleme ugyanolyan típusú), akkor a `lapply` eredményét nyugodtan leegyszerűsíthetjük vektorrá. A `sapply` nem csinál mást, mint futtat egy `lapply`-t, majd az eredményen egy `unlist`-et, és az eredményt visszadja.
 
 ```{r}
-unlist(test.list, use.names = F)
+unlist(sums)
 ```
 
 Az unlist hívása egyszerűen egy nagy vektorrá alakította a listánkat, ami tartalmazza annak összes elemét. 
@@ -176,7 +176,7 @@ Az unlist hívása egyszerűen egy nagy vektorrá alakította a listánkat, ami 
 Amennyiben az előző feladatot szeretnénk megoldani `sapply`-al:
 
 ```{r}
-sums <- sapply(test.list, FUN=sum)
+sums <- sapply(test.list, sum)
 sums
 ```
 

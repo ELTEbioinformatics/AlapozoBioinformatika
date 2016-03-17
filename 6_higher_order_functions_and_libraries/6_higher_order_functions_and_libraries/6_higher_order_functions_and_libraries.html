@@ -125,28 +125,28 @@ higher.order(1:10, test.function, 7, 8)</code></pre>
 ...
 \]</span></p>
 <p>és így tovább.</p>
-<p>A <code>higher.order</code> megírásakor még nem tudhatjuk, mennyi paramétere lesz a kapott függvénynek, de biztosítanunk kell, hogy a kapott extra paraméterek átkerülnek átadódnak a függvénynek.</p>
+<p>A <code>higher.order</code> megírásakor még nem tudhatjuk, mennyi paramétere lesz a kapott függvénynek, de biztosítanunk kell, hogy a kapott extra paraméterek átadódnak a függvénynek.</p>
 <div id="aggregateformula-data-fun-...-subset-na.action-na.omit" class="section level2">
 <h2><code>aggregate(formula, data, FUN, ..., subset, na.action = na.omit)</code></h2>
 <p>Elsőként nézzük meg az igen hasznos aggregate() függvényt! Ez egy data.frame-en belüli oszlop numerikus értékeit aggregálja egy adott függvényt felhasználva, egy csoportváltozó szerint. Huh, na nézzük</p>
 <pre class="r"><code>experiment &lt;- read.csv(&quot;../../3_file_handling/homework_1/experiment.csv&quot;)
-aggregated &lt;- aggregate(weight ~ treatment, data=experiment, FUN=mean)
+aggregated &lt;- aggregate(weight ~ treatment, experiment, mean)
 aggregated</code></pre>
 <pre><code>##   treatment   weight
 ## 1   control 14.95815
 ## 2   treated 14.73232</code></pre>
-<p>Na akkor mégegyszer: Egy adott data.frame-en belül : experiment egy adott függvényt felhasználva : FUN=mean egy oszlop numerikus értékeit: weight egy csoport változó szerint: treatment aggregálja</p>
+<p>Na akkor mégegyszer: Egy adott data.frame-en belül : experiment egy adott függvényt felhasználva : mean egy oszlop numerikus értékeit: weight egy csoport változó szerint: treatment aggregálja</p>
 <p>Megint huh.</p>
 <p>Több numerikus értéket is vizsgálhatunk, ha cbinddal összefüzzük őket:</p>
 <pre class="r"><code>experiment$life.span &lt;- experiment$died - experiment$born
-aggregated &lt;- aggregate(cbind(weight, life.span) ~ treatment, data=experiment,  FUN=mean)
+aggregated &lt;- aggregate(cbind(weight, life.span) ~ treatment, experiment,  mean)
 aggregated</code></pre>
 <pre><code>##   treatment   weight life.span
 ## 1   control 14.95815  1252.172
 ## 2   treated 14.73232  1247.978</code></pre>
 <p>Több csoportváltozót is megadhatunk a + operátor segítéségével:</p>
 <pre class="r"><code>experiment$life.span &lt;- experiment$died - experiment$born
-aggregated &lt;- aggregate(cbind(weight, life.span) ~ treatment + diet, data=experiment,  FUN=mean)
+aggregated &lt;- aggregate(cbind(weight, life.span) ~ treatment + diet, experiment, mean)
 aggregated</code></pre>
 <pre><code>##   treatment    diet   weight life.span
 ## 1   control control 14.87960  1255.691
