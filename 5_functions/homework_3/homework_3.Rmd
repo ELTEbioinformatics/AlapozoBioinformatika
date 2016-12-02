@@ -1,0 +1,12 @@
+---
+title: "Homework"
+author: "Tamas Kadlecsik"
+date: "March 5, 2016"
+output: html_document
+---
+
+Írjunk függvényt, ami megnézi, hogy egy szám prím-e. 
+
+  - Szükség lesz egy ciklusra, ami 1-nél indul és a kapott szám előtt legalább egy-el megáll.
+  - Minden iterációnál elosztja a paramétert az adott i-vel
+  - Ha a szám osztható i-vel a függvény értéke FALSE legyen – hiszen a szám nem prím –, míg, ha lefut a ciklus a nélkül, hogy sikerült volna osztót találni – vagyis az rgumentum prím – térjen vissza TRUE-val.

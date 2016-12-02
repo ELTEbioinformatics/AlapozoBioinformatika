@@ -1,0 +1,585 @@
+---
+title: "Control flow"
+author: "Tamas Kadlecsik"
+date: "February 25, 2016"
+output: html_document
+---
+
+# Vezérlés
+A scriptjeinket elképzelhetjük úgy, mint feldolgozóüzemeket. Nagy mennyiségben beérkezik a feldolgozandó anyag, például hús, érc, stb. A lényeg, hogy több különböző komponensre akarjuk szétszedni, majd értékes árut szeretnénk létrehozni.
+Esetünkben az alapanyag valamilyen nyers adat. A feldolgozást végző különböző (forgó)berendezések, például malmok, reaktorok, darálók, őrlők az úgynevezett **ciklusok** [for]. A betáplált adatok azonos minőségű részhalmazain újra, és újra elvégzik ugyanazt a műveletet. Nekünk csupán arról kell gondoskodnunk, hogy a késztermék helyére minden ciklus után friss alapanyag kerüljön. 
+Semmilyen eljáráshoz nem elegendőek azonban maguk a gépek. Azt, hogy egy adott dolog a képbe kerülhet-e, valamilyen mechanizmusnak ellenőriznie kell. Ezek lesznek a **feltételes vezérlő utasítások** [if].
+
+Hogy egy kicsit mindennapibb példával éljünk:
+
+Amikor tésztát gyúrunk, szükségünk van tojásra, lisztre, vízre. Azonban mielőtt összekevernénk a szükséges mennyiséget, leellenőrizzük, hogy a tojásaink nem zápultak-e meg, illetve, hogy nem zsizsikes-e a lisztünk.
+
+Ezek után addig gyúrjuk, amíg megfelelő állagú tésztát nem kapunk. Ha esetleg túl híg, újabb adag lisztet adunk hozzá, ha túl sűrű, kicsit felvizezzük.
+
+Ezt egy gépnek a következő R pszeudokóddal tudnánk elmagyarázni:
+
+```{r eval=F}
+flour <- read.table("a bag a flour")
+water <- read.table("0.5 l of water")
+eggs <- read.table("2 eggs")
+if("maggots" %in% flour) flour <- read.table("new bag of flour")
+if(is.spolied(eggs)) eggs <- read.table("2 other eggs")
+```
+
+Ezzel elő is készültünk a főzéshez. Persze a kód nem teljes, hiszen ezt addig kéne ismételgetnünk, amíg nem találunk használható tojásokat ÉS használható lisztet. 
+
+Ezek után addig kell gyúrnunk, amíg megfelelő állagú nem lesz:
+
+```{r eval=F}
+ready <- F
+while(!ready){
+	dough <- knead(flour, water, eggs)
+	if (dough["consistency"] -- "ready") ready <- T
+}
+write.table(dough, "dough.csv")
+```
+
+Természetesen ezt is pontosíthatnánk még, de nem célunk pontos tésztagyúróprogram írása. A következőkben szépen végignézzük a fenti kódot, illetve írunk használhatót is.
+
+Előre szeretném leszögezni, hogy noha zárójelet látunk utánuk, sem az if, sem a while, sem a többi ciklus nem függvény! Függvényhívás után ugyanis nem állhat kód blokk! Vagyis függvényhívás után sosem látunk "{" karaktert!
+
+# Feltétes utasítások
+## Logikai operátorok
+
+Kódunk legelején a már ismert módon beolvastuk a nyers adatot, vagyis a tésztánk alapanyagait.
+
+```{r eval=F}
+flour <- read.table("a bag a flour")
+water <- read.table("0.5 l of water")
+eggs <- read.table("2 eggs")
+if("maggots" %in% flour) flour <- read.table("new bag of flour")
+if(is.spolied(eggs)) eggs <- read.table("2 other eggs")
+```
+
+Az **if kitétel** utáni zárójelben található `["maggots" %in% flour]` logikai kifejezésben az %in% a logikai operátor. Logikai operátorból igen sokféle van, azonban a leggyakoribbak:
+
+|Név                                   |Operátor     |
+|--------------------------------------|:-----------:|
+|Vektoriális **AND**                   | `&`         |
+|Logikai **AND**                       | `&&`        |
+|Vektoriális **OR**                    | `|`         |
+|Logikai **OR**                        | `||`        |
+| **NOT**                              | `!`         |
+| **EQUALS TO**                        | `==`        |
+| **NOT EQUALS TO**                    | `!=`        |
+| **LESS / GREATER THEN**              | `<` / `>`   |
+| **LESS / GREATER THEn OR EQUALS TO** | `<=` / `>=` |
+| **INCLUDES**                         | `%in%`      |
+
+Az **AND**, **OR** és **NOT** operátoraink közvetlenül a Bool algebrából lettek kölcsönvéve, így könnyedén írhatunk rájuk igazság táblát:
+
+**AND**:
+
+|A|B| A & B|
+|-|-|:----:|
+|T|T|  T   |
+|T|F|  F   |
+|F|T|  F   |
+|F|F|  F   |
+
+**OR**:
+
+|A|B| A \| B|
+|-|-|:-----:|
+|T|T|  T    |
+|T|F|  T    |
+|F|T|  T    |
+|F|F|  F    |
+
+**NOT**:
+
+|A|  !A   |
+|-|:-----:|
+|F|  T    |
+|T|  F    |
+
+Magyarázatra szorul még a vektoriális, és logikai operátor. A vektoriális operátorok két egyenlő hosszúságú logikai vektoron végeznek ELEMENKÉNT logikai műveletet. 
+
+```{r}
+l1 <- c(TRUE,TRUE,FALSE,TRUE,FALSE)
+l2 <- c(FALSE,TRUE,FALSE,TRUE,TRUE)
+l1 & l2
+l1 | l2
+```
+
+Ezzel szemben a logikai operátor minden esetben biztosítja, hogy csakis egy logikai eredménye legyen a vizsgálatnak. Esetünkben a két vektornak csupán az első elemeit fogja összehasonlítani.
+
+```{r}
+l1 && l2
+l1 || l2
+```
+
+A tagadás (**NOT**) operátor logikai vektorokon van értelmezve. Mivel ha csupán egyetlen értéket rendelünk egy változóhoz akkor is vektort kapunk, csupán egyeleműt, így nincs értelme külön vektoriális és logikai tagadásról beszélni. A kettő egy és ugyanaz.
+
+```{r}
+!l1
+l1 <- TRUE
+!l1
+```
+
+Noha az esetek döntő többségében if kitételen belül is működnek a vektoriális operátorok, ezek használata azonban nem szerencsés, így ha lehet, szokjunk rá, hogy megfelelő helyen a megfelelő operátort használjuk!
+
+A matematikai relációjelekkel a szokásos módon tudjuk megvizsgálni két változó, vagy egy változó és egy konstans viszonyát.
+
+```{r}
+x <- 4
+x > 3
+x < 3
+x <= 3
+x >= 4
+x == 4
+x != 4
+x == 15
+x != 15
+```
+
+A tartalmazás operátorral egyszerűen megvizsgálhatjuk, hogy valamely vektor, mátrix, vagy bármely összetett típusú objektum tartalmazza-e a keresett elemet vagy elemeket.
+
+```{r}
+'apple' %in% c('apple', 'banana')
+10 %in% c(1,5,25)
+c(1,5) %in% c(1,5,25)
+c(1,2) %in% c(1,5,25)
+```
+
+Figyeljünk, hogy az `%in%` operátort közvetlenül tagadni nem tudjuk! Azonban a matematikai logika (a.k.a. Boole algebra) szabályai itt is alkalmazhatóak, a műveleti sorrend, és a zárójelek használata megegyezik a gimnáziumban tanulttal. Amennyiben már nincs meg a gimis matekkönyvünk, úgy a wikipédia Boole algebrára vonatkozó szócikke segíthet eligazodni.
+Az `%in%` operátor eredményének tagadásának egyik módja a következő:
+
+```{r}
+!(10 %in% c(1,5,25))
+```
+
+## Logikai függvények
+
+```{r eval=F}
+if(is.spolied(eggs)) eggs <- read.table("2 other eggs")
+```
+
+Fenti sorunk, mellyel megvizsgáltuk, hogy a tojásaink romlottak-e, egy logikai függvény. Vagyis egy olyan függvény, melynek visszatérési értéke egy logikai érték. Igen sok ilyen van, a konkrét típus vizsgálatok mindegyikére találunk függvényt:
+
+```{r eval=F}
+is.vector()
+is.numeric()
+is.integer()
+is.logical()
+is.complex()
+is.data.frame()
+is.list()
+```
+
+A két legfontosabb azonban az:
+
+```{r eval=F}
+is.null()
+is.na()
+```
+
+A null egy külön típus. Jelentése: semmi. Ahogy a matematikában a 0 a semmi SZÁMSZERŰ reprezentációja, úgy a `NULL` az informatikában a semmi informatikai reprezentációja. Esetünkben a 0 nem semmi, hiszen hordoz információt. A `NULL` azt jelképezi, hogy valamiről nem áll rendelkezésre információ. Amolyan üres memóriaterület. Ha egy változónak nincs értéke, akkor a típusa NULL.
+
+Ezzel szemben az `NA` (Not Available) a "nincs adat" reprezentációja. Ez a statisztikai semmi. Ha nincs mért adatunk, statisztikailag nincs semmink, azonban fontos ezen adatok nyomon követése is. Az, hogy nem mértünk semmit (mert tök részegek voltunk, és nem bírtuk megfogni még a pipettát sem), nem egyenlő azzal, hogy 0 értéket mértünk (mert kimutatási határ alatt volt a mérendőnk). Információ értéke azonban ennek is van!
+
+Az `NA` nem összekeverendő a `NaN értékkel`, ami a "Not a Number" kifejezés rövidítése. Bővebb információért konzol: `?NaN`.
+
+## Logikai indexelés
+
+Adott data.frame celláit a következő módon tudjuk elérni: `data.frame[sor, oszlop]`
+Például a házi feladat sorai, és oszlopai:
+
+```{r eval=F}
+experiment[2,]
+```
+
+visszaadja az experiment második sorát
+
+```{r eval=F}
+experiment[,3]
+```
+
+visszaadja az experiment második sorát
+
+```{r eval=F}
+experiment$died
+```
+
+és
+
+```{r eval=F}
+experiment["died"]
+```
+
+hívások.
+
+Amennyiben adott sorokat szeretnénk vektorokat is megadhatunk indexként.
+Emlékeztetőül, a vektorok létrehozására:
+
+```{r eval=F}
+1:5 == c(1,2,3,4,5)
+```
+
+Vagyis, ha az első 5 sort szeretnénk:
+
+```{r eval=F}
+experiment[1:5,]
+```
+
+első 3 oszlop:
+
+```{r eval=F}
+experiment[,1:5]
+```
+
+első 5 oszlop, első 5 sora
+
+```{r eval=F}
+experiment[1:5,1:5]
+```
+
+de ha csak az 1., 3., és 5. sorok kellenek:
+
+```{r eval=F}
+experiment[c(1,3,5),1:5]
+```
+
+és csak az első és 5. oszlop:
+
+```{r eval=F}
+experiment[c(1,3,5),c(1,5)]
+```
+
+Miért beszélünk erről a logikai operátoroknál?
+
+Nézzük meg mi történik, ha 
+
+```{r eval=F}
+experiment[,c(F,T)]
+```
+
+Vagyis kiegészítette a mintázatot 6-ig, tehát ez a hívás megegyezik a következővel:
+
+```{r eval=F}
+experiment[,c(F,T,F,T,F,T)]
+```
+
+Tehát 
+
+```{r eval=F}
+experiment[,c(T,T,F)]
+```
+
+Ugyanaz, mint:
+
+```{r eval=F}
+experiment[,c(T,T,F,T,T,F)]
+```
+
+Ugyanez sorokkal is működik:
+
+```{r eval=F}
+experiment[c(F,T), c(F,T)]
+```
+
+Megkaptuk az experiment minden második sorát, és oszlopát.
+
+Most nézzük meg mi történik, ha a data.frame-et logikai vizsgálatnak vetjük alá:
+
+```{r eval=F}
+experiment$treatment == "control"
+```
+
+Kapunk egy vektort amely megadja, hogy az adott sorban a logikai vizsgálat eredménye TRUE, vagy FALSE. Ezt felhasználva tudunk szűrni a a táblázatunk sorai között:
+
+```{r eval=F}
+filter.vector <- experiment$treatment == "control"
+experiment[filter.vector,]
+```
+
+Ezt egybeírva:
+
+```{r eval=F}
+experiment[experiment$treatment == "control",]
+```
+
+Természetesen több oszlopot is vizsgálhatunk egyszerre:
+```{r eval=F}
+filter.vector <- experiment$treatment == "control" & experiment$diet == "control"
+experiment[filter.vector,]
+experiment[experiment$treatment == "control" & experiment$diet == "control",]
+```
+
+## Vezérlési utasítások
+
+Amennyiben egy adott kód lefutására csak bizonyos feltételek teljesülése esetén szükséges, akkor logikai vezérlési utasítást, más néven **if kikötést** alkalmazunk.
+
+```{r eval=F}
+if("maggots" %in% flour) flour <- read.table("new bag of flour")
+if(is.spolied(eggs)) eggs <- read.table("2 other eggs")
+```
+
+A fenti esetben CSAK ÉS KIZÁRÓLAG akkor dobjuk ki a tojást, vagy a lisztet, ha az zsizsikes, vagy záp.
+
+Általános esetben:
+
+```{r eval=F}
+if (logikai kifejezés) feltételesen futtatandó kód sor
+```
+
+Több sornyi kódot is futtathatunk, amennyiben azt kód blokkban helyezzük el.
+
+```{r eval=F}
+if (logikai kifejezés){
+  1. feltételesen futtatandó kód sor
+  2. feltételesen futtatandó kód sor
+  3. feltételesen futtatandó kód sor
+  4. feltételesen futtatandó kód sor
+}
+```
+
+Ez esetben, ha a logikai kifejezés igaz, vagyis a feltételünk teljesül, a kód blokk mind a 4 sora lefut, ha nem, akkor egyik sem, és közvetlenül a blokk után jövő utasítás hajtódik végre. A dagasztós példánál maradva: ha sem nem zápok a tojások, sem nem zsizsikes a liszt, akkor rögtön elkezdjük gyúrni a tésztát.
+
+```{r}
+x <- 4
+if (x>3) print("x is greater than 3")
+if (x<3) print("x is less than 3")
+if (x==4) print("x equals 4")
+```
+
+Gyakran megesik, hogy ha a vizsgálat negatív eredménnyel zárul, akkor nem elegendő, ha nem fut le a kikötés után a kód, hanem ez esetben mást szeretnénk futtatni.
+
+Példának okáért írjunk egy olyan kódot, ami beolvas egy fájlt, majd annak egy oszlopából szétválogatja a kettővel osztható, és a kettővel nem osztható számokat. A teljes példát csak a ciklusok bemutatása után tudjuk megoldani, de az alapokat már most lefektetjük.
+
+Ehhez első sorban a modulo (%%) aritmetikai operátorra lesz szükségünk.
+
+A modulo operátor a bal oldalát a jobb oldalával, majd megadja az osztás maradékát.
+
+például:
+
+```{r}
+4 %% 3
+```
+
+Kifejtve:
+4 / 3 = 1, marad az 1
+
+```{r}
+4 %% 2
+```
+
+4 / 2 = 2, marad a 0
+
+Vagyis, ha azt szeretnénk, hogy egy kód csak akkor fusson le, ha a vizsgált szám kettővel osztható:
+
+```{r}
+x <- 4
+if (x%%2==0) print("x is divisible by 2") else print("it's an odd number")
+x <- 15
+if (x%%2==0) print("x is divisible by 2") else print("it's an odd number")
+```
+
+Bekerült az "else" a képbe. Ha a kitétel igaz, csak a `print("x is divisible by 2")` ha a kitétel hamis, rögtön az `else` utáni részre ugrik és csak a `print("it's an odd number")` fut le.
+
+Megesik, hogy ez nekünk nem elég. Több felé kell szortíroznunk az információt:
+
+```{r}
+if (x%%2==0) print ("x is divisible by 2") else if (x%%3==0) 
+  print("x is divisible by 3") else if(x%%5==0) 
+    print("x is divisible by 5") else print("where did this come from")
+```
+
+Kód blokkot használva kicsit átláthatóbbá tehetjük a dolgot:
+
+```{r}
+if (x%%2==0) {
+  print ("x is divisible by 2")
+} else if (x%%3==0) {
+  print("x is divisible by 3")
+} else if(x%%5==0) {
+	print("x is divisible by 5")
+} else {
+	print("where did this come from?")
+}
+print("so we shall go on")
+```
+
+Vagyis, ha x osztható kettővel lefut az első print, majd a kikötések utáni sor fut le, vagyis az eredmény:
+
+```{r eval=F}
+"x is divisible by 2"
+"so we shall go on"
+```
+
+Ha x == 15 
+
+```{r eval=F}
+"x is divisible by 5"
+"so we shall go on"
+```
+
+Ezt egyébként if – else blokknak hívják.
+
+Figyeljük meg, hogy az if – else blokk futtatása azonnal megáll, amint valamelyik feltétel if, vagy else if feltétel teljesül, rögtön a blokk utáni első sorra ugrik a végrehatjás.
+
+Mint már említettük ezek azok a nyelvi konstrukciók, melyek lehetővé teszik az ismétlődő munkavégzést. Iparban a tartályok és forgó berendezések teszik ezt lehetővé. Főzés esetén pedig a tál és a fakanál, vagy épp a kezünk. 
+
+Újra, és újra elvégezzük ugyanazt a műveletet, amíg célhoz nem érünk.
+
+Próbáljuk megírni a kedvenc sum függvényünket függvényhívás nélkül!
+
+```{r}
+x <- c(5,10,15,20,25)
+sum <- 0
+for (value in x){
+	sum <- sum + value
+}
+```
+
+Lefuttatva az Rstudio jobb fölső moduljában, a változók között láthatjuk, hogy a sum 75-tel lett egyenlő. Megoldásunk eredményét egy szokásos sum(x) hívással ellenőrízhetjük.
+
+Vagyis a value változó minden iterációkor közvetlenül felveszi x soron következő értéket:
+
+1. iteráció `value = x[1] = 5`
+
+```{r eval=F}
+sum <- sum + value
+sum <- 0 + 5
+```
+
+2. iteráció: `value = x[2] = 10`
+
+```{r eval=F}
+sum <- sum + 10
+sum <- 5 + 10
+```
+
+3. iteráció: `value = x[3] = 15`
+
+```{r eval=F}
+sum <- sum + 15		
+sum <- 15 + 15
+```	
+
+4. iteráció: `value = x[4] = 20`
+
+```{r eval=F}
+sum <- sum + 20	
+sum <- 30 + 20
+```	
+
+5. iteráció: `value = x[5] = 25`
+
+```{r eval=F}
+sum <- sum + 25
+```	
+
+_Figyeljük meg, hogy nem_ `i`_-nek hívjuk a változót, hanem value-nak. Hasznos, ha olyan nevet adunk a változóinknak, ami alapján egyből tudjuk, mivel is van dolgunk. Az_`i`,`j`,`k`,`l` _betűket az egymás utáni dimenziójú indexváltozókra szokás használni. Azonban mivel itt a value nem az indexváltozó, hanem közvetlenül x i-edik értéke így illik legalább_ `value`_-nak hívni, de inkább valami adjunk neki valami beszéldes nevet, ami alapján egyértelmű, hogy milyen értékkel dolgozunk épp a ciklusban. Ha például egy_ `data.frame` _megfelelő oszlopán futunk végig:_
+
+```{r eval=F}
+for(life.span in experiment$life.span){
+	… 
+}
+```
+
+Ezek segítségével már megírhatjuk a szortírozós kódunkat, amit a vezérlési utasításoknál félbehagytunk:
+
+```{r eval=F}
+if (x%%2==0) {
+  print ("x is divisible by 2")
+} else if (x%%3==0) { 
+  print("x is divisible by 3")
+} else if(x%%5==0) {
+	print("x is divisible by 5")
+} else {
+	print("where did this come from")
+}
+```
+
+Ha már x volt a változó, maradjunk annál, de kérek mindenkit, erősen ráncolja a homlokát, és jegyezze meg magában, hogy "ez bizony így nagyon nem szép!"
+
+```{r}
+vector <- 1:100
+div.2 <- NULL
+div.3 <- NULL
+div.5 <- NULL
+others <- NULL
+
+for (x in vector){
+  if (x%%2==0) {
+    div.2 <- c(div.2, x)
+  } else if (x%%3==0) {
+    div.3 <- c(div.3, x)
+  } else if(x%%5==0) {
+  	div.5 <- c(div.5, x)
+  } else {
+  	others <- c(others, x)
+  }
+}
+
+div.2
+div.3
+div.5
+others
+```
+
+Ha megnézzük, a hárommal osztható páros számok, csak a div.2-be kerültek be, ahogyan a 10-el osztható számok is, míg a 15-el oszthatók csak a div.3-ba.
+
+Ez azért van mert csak egyszer az `if-else` blokk-on belül csak az egyik utasítás futhat le. Ha az `if`, vagy valamelyik `else if` utáni feltétel teljesül, lefut az utána lévő kód, majd az `if-else` blokk végére ugrik az interpreter.
+
+Ezt úgy tudjuk elkerülni, ha nem használunk if-else blokkot, hanem mindegyik feltételt `if`-fel kezdjük. 
+
+```{r}
+vector <- 1:100
+div.2 <- NULL
+div.3 <- NULL
+div.5 <- NULL
+others <- NULL
+
+for (x in vector){
+  if (x%%2==0) {
+    div.2 <- c(div.2, x)
+  } 
+  if (x%%3==0) {
+    div.3 <- c(div.3, x)
+  } 
+  if(x%%5==0) {
+  	div.5 <- c(div.5, x)
+  } else {
+  	others <- c(others, x)
+  }
+}
+
+div.2
+div.3
+div.5
+others
+```
+
+`div.1/2/3` és  `others` azon vektoraink, amikben a szétszortírozott számainkat szeretnénk tartani. NULL-lal, vagy üresen ("semmivel") inicializáljuk őket.
+
+Nos, gyakorlatilag véghezvittük a for ciklusok írásának alapvető módját. Először megírtuk egy változóra, majd általánosítottuk többre.
+
+Kimaradt az iteráció ugrás. Ezt a `next` utasítással tudjuk elérni. Amennyiben a `next` utasítás lefut, a ciklus rögtön a következő iterációra ugrik, az utasítás utáni sorokat ebben a körben figyelmen kívül hagyja. Ezt természetesen valamilyen feltételhez érdemes kötni.
+
+E mellett van lehetőség a ciklusok korai befejezésére, ez pedig a `break` utasítással történik. Természetesen ezeket illik valamilyen feltételhez kötni, különben nincs sok értelmük.
+
+# Szótár
+| kifejezés                     | expression                        |
+|-------------------------------|-----------------------------------|
+| ciklus                        | loop                              |
+| feltételes vezérlő utasítások | conditional statement             |
+| if kitétel                    | if clause                         |
+| Vektoriális                   | Vectorial                         |
+| Logikai                       | Logical                           |
+| ÉS                            | AND                               |
+| VAGY                          | OR                                |
+| NEM                           | NOT                               |
+| Egyenlő                       | Equals to                         |
+| Nem egyenlő                   | Not equals to / does not equal to |
+| Kisebb                        | Less than                         |
+| Nagyobb                       | Greater than                      |
+| Kisebb egyenlő                | Less than or equals to            |
+| Nagyobb egyenlő               | Greater than or equals to         |
+| Tartalmazza                   | Includes                          |

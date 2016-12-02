@@ -77,7 +77,7 @@ img {
 <p>Ha például én alapesetben meghívom a getwd()-t a konzolban nekem a</p>
 <p>Unix alapú rendeszereken (Linux, OS X):</p>
 <pre class="r"><code>getwd()</code></pre>
-<pre><code>## [1] &quot;/media/nazgul/ext4/Dropbox/Prog/Education/AlapozoBioinformatika/3_file_handling&quot;</code></pre>
+<pre><code>## [1] &quot;/media/nazgul/ext4/Dropbox/Prog/Education/AlapozoBioinformatika/3_file_handling/3_file_handling&quot;</code></pre>
 <pre class="r"><code>setwd(&quot;/home/nazgul/&quot;)
 getwd()</code></pre>
 <pre><code>## [1] &quot;/home/nazgul&quot;</code></pre>
@@ -151,19 +151,158 @@ Annie | New York</code></pre>
 <p>Ha beütjük a consolba, hogy</p>
 <pre><code>?read.table</code></pre>
 <p>megkapjuk a függvény teljes paraméter listáját. Látszik, hogy jóval több van neki, mint amiket most itt tárgyaltunk. Az esetek döntő többségében elegendő a</p>
-<pre><code>my.data &lt;- read.table(&quot;D:/Education/AlapozoBioinformatika/toy.csv&quot;, header = T, sep=',')</code></pre>
+<pre><code>people &lt;- read.table(&quot;D:/Education/AlapozoBioinformatika/toy.csv&quot;, header = T, sep=',')</code></pre>
 <p>(Windows)</p>
-<pre><code>my.data &lt;- read.table(&quot;/home/nazgul/AlapozoBioinformatika/toy.csv&quot;, header = T, sep=',')</code></pre>
+<pre><code>people &lt;- read.table(&quot;/home/nazgul/AlapozoBioinformatika/toy.csv&quot;, header = T, sep=',')</code></pre>
 <p>(Unix)</p>
 <p>kinézetű hívás.</p>
 <p>Ha valamiért meggajdulna és elkezdene több sort egyetlen cellába beolvasni leggyakrabban nem megfelőlen szeparáltak a szöveges cellák, ezt a <code>quote</code> argumentum beállításával tudjuk orvoslni, vagyis:</p>
-<pre><code>my.data &lt;- read.table(&quot;D:/Education/AlapozoBioinformatika/toy.csv&quot;, header=T, sep=',', quote=&quot;&quot;)</code></pre>
+<pre><code>people &lt;- read.table(&quot;D:/Education/AlapozoBioinformatika/toy.csv&quot;, header=T, sep=',', quote=&quot;&quot;)</code></pre>
 <p>Ha pedig szerepel valahol a táblázatban <code>#</code>, ami például ID-k esetén igen gyakori, akkor a <code>comment.char</code> paramétert kell üres stringre állítani:</p>
-<pre><code>my.data &lt;- read.table(&quot;D:/Education/AlapozoBioinformatika/toy.csv&quot;, header=T, sep=',', comment.char=&quot;&quot;)</code></pre>
+<pre><code>people &lt;- read.table(&quot;D:/Education/AlapozoBioinformatika/toy.csv&quot;, header=T, sep=',', comment.char=&quot;&quot;)</code></pre>
 <p>Ha mindkettő igaz:</p>
-<pre><code>my.data &lt;- read.table(&quot;D:/Education/AlapozoBioinformatika/toy.csv&quot;, header=T, sep=',', comment.char=&quot;&quot;, quote=&quot;&quot;)</code></pre>
+<pre><code>people &lt;- read.table(&quot;D:/Education/AlapozoBioinformatika/toy.csv&quot;, header=T, sep=',', 
+                       comment.char=&quot;&quot;, quote=&quot;&quot;)</code></pre>
 <p>Az elnevezett argumentumok (<code>header=</code>, <code>sep=</code>, <code>quote=</code>, <code>comment.char=</code>) sorrendje természetesen nem számít, azonban a <code>path/to/file</code>-nak mindig a legelső argumentumnak kell lennie. Az elnevezett argumentumokból bármelyiket ki is hagyhatjuk.</p>
 </div>
+</div>
+<div id="data.frame" class="section level1">
+<h1><code>data.frame</code></h1>
+<p>A data.frame egy táblázat beolvasása során léétrejövő összetett típus. Gyakorlatilag egy lista, miben elnevezett vektorok vannak. Egy oszlop egy vektor.</p>
+<p>Ha például megnézzük a típusát:</p>
+<pre class="r"><code>people &lt;- read.table(&quot;~/Prog/Education/AlapozoBioinformatika/3_file_handling/toy.csv&quot;, 
+                      header = T, sep=',', quote = &quot;&quot;)
+typeof(people)</code></pre>
+<pre><code>## [1] &quot;list&quot;</code></pre>
+<p>Mivel listáról beszélünk, a listáknál láttot <code>$</code> jelöléssel név szerint, a <code>[[index]]</code> jelöléssel pedig index szerint hivatkozhatunk a lista oszlopaira, azokon belül pedig a vektor elemeire indexekkel:</p>
+<pre class="r"><code>people$names</code></pre>
+<pre><code>##   [1] William Sanford   Ethan Jensen      Brenda Mendoza   
+##   [4] Lani Dotson       Hanna Lowe        Marvin Cantu     
+##   [7] Chaim Osborne     Lucas Harrell     Sydnee Downs     
+##  [10] Summer Berger     Yvette Rodriguez  Sawyer Beck      
+##  [13] Karina Roberson   Reed Wilder       Mark Cherry      
+##  [16] Deacon Schmidt    Lacey Oneil       Reese Dawson     
+##  [19] Jescie Lane       Rama Waller       Vladimir Giles   
+##  [22] Nigel Stanley     Ciara Santana     Gareth Holder    
+##  [25] Giacomo Duran     Dorian Freeman    Jeremy Stone     
+##  [28] Veda Heath        Jin Beasley       Stella Bailey    
+##  [31] Audra Slater      Jakeem Huff       Elizabeth Mcleod 
+##  [34] Stewart Harding   Brianna Hays      Ciaran Trujillo  
+##  [37] Marvin Vasquez    Shea Paul         Brynne Stone     
+##  [40] Belle Franklin    Allen Rivas       Derek Bruce      
+##  [43] Ruby Weaver       Lucy Cote         Nevada Gilliam   
+##  [46] Alfonso Simpson   Kirby Guzman      Rosalyn Haney    
+##  [49] Ima Vang          Denise Moran      Kyla Espinoza    
+##  [52] Jelani Blackburn  Roanna Romero     Adria Burton     
+##  [55] Naida Owens       Jennifer Leon     Aristotle Hoffman
+##  [58] Felicia Howe      Alika Chambers    Kaitlin Ballard  
+##  [61] Carl Weiss        Caryn Brewer      Ebony Massey     
+##  [64] Nero Cabrera      Aaron Bray        Yen Ayers        
+##  [67] Jolie Holt        Naomi Parsons     Pearl Stevenson  
+##  [70] Jamalia Fuentes   Blossom Rowland   Darrel White     
+##  [73] Maryam Lang       Thomas Duffy      Phillip Gill     
+##  [76] Marny Maldonado   Noel Callahan     Alisa Wilkinson  
+##  [79] Stewart Holmes    Phyllis Rollins   Cally Gallegos   
+##  [82] Vaughan Schneider Joshua Mendoza    Luke Gray        
+##  [85] Jana Fletcher     Amela Lang        Cathleen Warren  
+##  [88] Thomas Banks      Harrison Hubbard  Orli Bell        
+##  [91] Finn Bentley      Haviva Nolan      Quentin Haley    
+##  [94] Sylvia Yates      Bruno Parrish     Maggy Murphy     
+##  [97] Olivia Brock      Wylie Terrell     Vivian Valenzuela
+## [100] Rae Mays         
+## 100 Levels: Aaron Bray Adria Burton Alfonso Simpson ... Yvette Rodriguez</code></pre>
+<pre class="r"><code>people$names[1]</code></pre>
+<pre><code>## [1] William Sanford
+## 100 Levels: Aaron Bray Adria Burton Alfonso Simpson ... Yvette Rodriguez</code></pre>
+<pre class="r"><code>people[[1]]</code></pre>
+<pre><code>##   [1] William Sanford   Ethan Jensen      Brenda Mendoza   
+##   [4] Lani Dotson       Hanna Lowe        Marvin Cantu     
+##   [7] Chaim Osborne     Lucas Harrell     Sydnee Downs     
+##  [10] Summer Berger     Yvette Rodriguez  Sawyer Beck      
+##  [13] Karina Roberson   Reed Wilder       Mark Cherry      
+##  [16] Deacon Schmidt    Lacey Oneil       Reese Dawson     
+##  [19] Jescie Lane       Rama Waller       Vladimir Giles   
+##  [22] Nigel Stanley     Ciara Santana     Gareth Holder    
+##  [25] Giacomo Duran     Dorian Freeman    Jeremy Stone     
+##  [28] Veda Heath        Jin Beasley       Stella Bailey    
+##  [31] Audra Slater      Jakeem Huff       Elizabeth Mcleod 
+##  [34] Stewart Harding   Brianna Hays      Ciaran Trujillo  
+##  [37] Marvin Vasquez    Shea Paul         Brynne Stone     
+##  [40] Belle Franklin    Allen Rivas       Derek Bruce      
+##  [43] Ruby Weaver       Lucy Cote         Nevada Gilliam   
+##  [46] Alfonso Simpson   Kirby Guzman      Rosalyn Haney    
+##  [49] Ima Vang          Denise Moran      Kyla Espinoza    
+##  [52] Jelani Blackburn  Roanna Romero     Adria Burton     
+##  [55] Naida Owens       Jennifer Leon     Aristotle Hoffman
+##  [58] Felicia Howe      Alika Chambers    Kaitlin Ballard  
+##  [61] Carl Weiss        Caryn Brewer      Ebony Massey     
+##  [64] Nero Cabrera      Aaron Bray        Yen Ayers        
+##  [67] Jolie Holt        Naomi Parsons     Pearl Stevenson  
+##  [70] Jamalia Fuentes   Blossom Rowland   Darrel White     
+##  [73] Maryam Lang       Thomas Duffy      Phillip Gill     
+##  [76] Marny Maldonado   Noel Callahan     Alisa Wilkinson  
+##  [79] Stewart Holmes    Phyllis Rollins   Cally Gallegos   
+##  [82] Vaughan Schneider Joshua Mendoza    Luke Gray        
+##  [85] Jana Fletcher     Amela Lang        Cathleen Warren  
+##  [88] Thomas Banks      Harrison Hubbard  Orli Bell        
+##  [91] Finn Bentley      Haviva Nolan      Quentin Haley    
+##  [94] Sylvia Yates      Bruno Parrish     Maggy Murphy     
+##  [97] Olivia Brock      Wylie Terrell     Vivian Valenzuela
+## [100] Rae Mays         
+## 100 Levels: Aaron Bray Adria Burton Alfonso Simpson ... Yvette Rodriguez</code></pre>
+<pre class="r"><code>people[[1]][1]</code></pre>
+<pre><code>## [1] William Sanford
+## 100 Levels: Aaron Bray Adria Burton Alfonso Simpson ... Yvette Rodriguez</code></pre>
+<p>Mivel táblázatról beszélünk, ami hasonlít egy mátrixhoz, a mátrixoknál látott indexelést is alkalmazhatjuk:</p>
+<pre class="r"><code>people[1,1]</code></pre>
+<pre><code>## [1] William Sanford
+## 100 Levels: Aaron Bray Adria Burton Alfonso Simpson ... Yvette Rodriguez</code></pre>
+<pre class="r"><code>people[,1]</code></pre>
+<pre><code>##   [1] William Sanford   Ethan Jensen      Brenda Mendoza   
+##   [4] Lani Dotson       Hanna Lowe        Marvin Cantu     
+##   [7] Chaim Osborne     Lucas Harrell     Sydnee Downs     
+##  [10] Summer Berger     Yvette Rodriguez  Sawyer Beck      
+##  [13] Karina Roberson   Reed Wilder       Mark Cherry      
+##  [16] Deacon Schmidt    Lacey Oneil       Reese Dawson     
+##  [19] Jescie Lane       Rama Waller       Vladimir Giles   
+##  [22] Nigel Stanley     Ciara Santana     Gareth Holder    
+##  [25] Giacomo Duran     Dorian Freeman    Jeremy Stone     
+##  [28] Veda Heath        Jin Beasley       Stella Bailey    
+##  [31] Audra Slater      Jakeem Huff       Elizabeth Mcleod 
+##  [34] Stewart Harding   Brianna Hays      Ciaran Trujillo  
+##  [37] Marvin Vasquez    Shea Paul         Brynne Stone     
+##  [40] Belle Franklin    Allen Rivas       Derek Bruce      
+##  [43] Ruby Weaver       Lucy Cote         Nevada Gilliam   
+##  [46] Alfonso Simpson   Kirby Guzman      Rosalyn Haney    
+##  [49] Ima Vang          Denise Moran      Kyla Espinoza    
+##  [52] Jelani Blackburn  Roanna Romero     Adria Burton     
+##  [55] Naida Owens       Jennifer Leon     Aristotle Hoffman
+##  [58] Felicia Howe      Alika Chambers    Kaitlin Ballard  
+##  [61] Carl Weiss        Caryn Brewer      Ebony Massey     
+##  [64] Nero Cabrera      Aaron Bray        Yen Ayers        
+##  [67] Jolie Holt        Naomi Parsons     Pearl Stevenson  
+##  [70] Jamalia Fuentes   Blossom Rowland   Darrel White     
+##  [73] Maryam Lang       Thomas Duffy      Phillip Gill     
+##  [76] Marny Maldonado   Noel Callahan     Alisa Wilkinson  
+##  [79] Stewart Holmes    Phyllis Rollins   Cally Gallegos   
+##  [82] Vaughan Schneider Joshua Mendoza    Luke Gray        
+##  [85] Jana Fletcher     Amela Lang        Cathleen Warren  
+##  [88] Thomas Banks      Harrison Hubbard  Orli Bell        
+##  [91] Finn Bentley      Haviva Nolan      Quentin Haley    
+##  [94] Sylvia Yates      Bruno Parrish     Maggy Murphy     
+##  [97] Olivia Brock      Wylie Terrell     Vivian Valenzuela
+## [100] Rae Mays         
+## 100 Levels: Aaron Bray Adria Burton Alfonso Simpson ... Yvette Rodriguez</code></pre>
+<pre class="r"><code>people[1,]</code></pre>
+<pre><code>##             names height weight hair.color    city hail.color
+## 1 William Sanford    169     97   Divorced Wichita   brunette</code></pre>
+<p>Amenyiben értékre, vagy oszlopra hivatkozunk, atomi értéket, míg sor esetén listát kapunk vissza.</p>
+<pre class="r"><code>typeof(people[1,1])</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code>typeof(people[,1])</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code>typeof(people[1,])</code></pre>
+<pre><code>## [1] &quot;list&quot;</code></pre>
 </div>
 <div id="irjunk-scriptet" class="section level1">
 <h1>Írjunk scriptet!</h1>

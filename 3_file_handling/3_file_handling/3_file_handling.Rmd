@@ -164,12 +164,12 @@ megkapjuk a függvény teljes paraméter listáját. Látszik, hogy jóval több
 
 
 ```
-my.data <- read.table("D:/Education/AlapozoBioinformatika/toy.csv", header = T, sep=',')
+people <- read.table("D:/Education/AlapozoBioinformatika/toy.csv", header = T, sep=',')
 ```
 (Windows)
 
 ```
-my.data <- read.table("/home/nazgul/AlapozoBioinformatika/toy.csv", header = T, sep=',')
+people <- read.table("/home/nazgul/AlapozoBioinformatika/toy.csv", header = T, sep=',')
 ```
 (Unix)
 
@@ -178,22 +178,60 @@ kinézetű hívás.
 Ha valamiért meggajdulna és elkezdene több sort egyetlen cellába beolvasni leggyakrabban nem megfelőlen szeparáltak a szöveges cellák, ezt a `quote` argumentum beállításával tudjuk orvoslni, vagyis:
 
 ```
-my.data <- read.table("D:/Education/AlapozoBioinformatika/toy.csv", header=T, sep=',', quote="")
+people <- read.table("D:/Education/AlapozoBioinformatika/toy.csv", header=T, sep=',', quote="")
 ```
 
 Ha pedig szerepel valahol a táblázatban `#`, ami például ID-k esetén igen gyakori, akkor a `comment.char` paramétert kell üres stringre állítani:
 
 ```
-my.data <- read.table("D:/Education/AlapozoBioinformatika/toy.csv", header=T, sep=',', comment.char="")
+people <- read.table("D:/Education/AlapozoBioinformatika/toy.csv", header=T, sep=',', comment.char="")
 ```
 
 Ha mindkettő igaz:
 
 ```
-my.data <- read.table("D:/Education/AlapozoBioinformatika/toy.csv", header=T, sep=',', comment.char="", quote="")
+people <- read.table("D:/Education/AlapozoBioinformatika/toy.csv", header=T, sep=',', 
+                       comment.char="", quote="")
 ```
 
 Az elnevezett argumentumok (`header=`, `sep=`, `quote=`, `comment.char=`) sorrendje természetesen nem számít, azonban a `path/to/file`-nak mindig a legelső argumentumnak kell lennie. Az elnevezett argumentumokból bármelyiket ki is hagyhatjuk.
+
+# `data.frame`
+
+A data.frame egy táblázat beolvasása során léétrejövő összetett típus. Gyakorlatilag egy lista, miben elnevezett vektorok vannak. Egy oszlop egy vektor. 
+
+Ha például megnézzük a típusát:
+
+```{r}
+people <- read.table("~/Prog/Education/AlapozoBioinformatika/3_file_handling/toy.csv", 
+                      header = T, sep=',', quote = "")
+typeof(people)
+```
+
+Mivel listáról beszélünk, a listáknál láttot `$` jelöléssel név szerint, a `[[index]]` jelöléssel pedig index szerint hivatkozhatunk a lista oszlopaira, azokon belül pedig a vektor elemeire indexekkel:
+```{r}
+people$names
+people$names[1]
+
+people[[1]]
+people[[1]][1]
+```
+
+Mivel táblázatról beszélünk, ami hasonlít egy mátrixhoz, a mátrixoknál látott indexelést is alkalmazhatjuk:
+
+```{r}
+people[1,1]
+people[,1]
+people[1,]
+```
+
+Amenyiben értékre, vagy oszlopra hivatkozunk, atomi értéket, míg sor esetén listát kapunk vissza.
+
+```{r}
+typeof(people[1,1])
+typeof(people[,1])
+typeof(people[1,])
+```
 
 # Írjunk scriptet!
 
